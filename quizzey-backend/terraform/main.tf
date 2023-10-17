@@ -31,8 +31,6 @@ locals {
   type                       = "zip"
   source_dir                 = "../lambdas"
   output_path_course_lambdas = "../lambda-zips/courses.zip"
-  # output_path_set_lambdas       = "../lambda-zips/sets.zip"
-  # output_path_questions_lambdas = "../lambda-zips/questions.zip"
 }
 
 
@@ -44,18 +42,6 @@ data "archive_file" "courses-zip" {
   output_path = local.output_path_course_lambdas
 }
 
-
-# data "archive_file" "sets-zip" {
-#   type        = local.type
-#   source_dir  = local.source_dir
-#   output_path = local.output_path_set_lambdas
-# }
-
-# data "archive_file" "questions-zip" {
-#   type        = local.type
-#   source_dir  = local.source_dir
-#   output_path = local.output_path_questions_lambdas
-# }
 
 
 resource "aws_iam_role" "iam_role_for_lambda" {
@@ -109,6 +95,14 @@ resource "aws_iam_role_policy_attachment" "attach_policy_to_role" {
 }
 
 
+resource "aws_s3_object" "quizzey-object" {
+  bucket    = "tu-api-lambda-deploys"
+  key       = "quizzey_app/lambdas.zip"
+  source    = "../lambdas/lambdas.zip"
+  etag      = filemd5("../lambdas/lambdas.zip")
+}
+
+
 # fetch all courses -----------------------------------------------------------------
 resource "aws_lambda_permission" "courses_get_lambda_perm" {
   statement_id  = "AllowExecutionFromAPIGateway"
@@ -120,208 +114,41 @@ resource "aws_lambda_permission" "courses_get_lambda_perm" {
 
 
 resource "aws_lambda_function" "courses_get_lambda" {
+  depends_on       = [
+                      aws_s3_object.quizzey-object, 
+                      aws_iam_role_policy_attachment.attach_policy_to_role
+                     ]
+  s3_bucket        = "tu-api-lambda-deploys"
+  s3_key           = "quizzey_app/lambdas.zip"
   function_name    = "fetch_all_courses"
-  filename         = data.archive_file.courses-zip.output_path
-  source_code_hash = data.archive_file.courses-zip.output_base64sha256
+  source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.courses_getter_handler"
   runtime          = "python3.10"
-  depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
 }
 
 
-# # update course ----------------------------------------------------------------------
-# resource "aws_lambda_permission" "course_update_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.course_update_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
+# fetch course by id -----------------------------------------------------------------
+resource "aws_lambda_permission" "ind_course_get_lambda_perm" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.ind_course_get_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
+}
 
 
-# resource "aws_lambda_function" "course_update_lambda" {
-#   function_name    = "update_course"
-#   filename         = data.archive_file.courses-zip.output_path
-#   source_code_hash = data.archive_file.courses-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "courses.course_update_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
+resource "aws_lambda_function" "ind_course_get_lambda" {
+  depends_on       = [
+                      aws_s3_object.quizzey-object, 
+                      aws_iam_role_policy_attachment.attach_policy_to_role
+                     ]
+  s3_bucket        = "tu-api-lambda-deploys"
+  s3_key           = "quizzey_app/lambdas.zip"
+  function_name    = "fetch_course"
+  source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
+  role             = aws_iam_role.iam_role_for_lambda.arn
+  handler          = "courses.course_getter_handler"
+  runtime          = "python3.10"
+}
 
-
-
-# # delete course ------------------------------------------------------------------------
-# resource "aws_lambda_permission" "course_delete_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.course_delete_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "course_delete_lambda" {
-#   function_name    = "delete_course"
-#   filename         = data.archive_file.courses-zip.output_path
-#   source_code_hash = data.archive_file.courses-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "courses.course_delete_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # get all sets by  courseId ----------------------------------------------------------
-# resource "aws_lambda_permission" "sets_get_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.sets_get_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "sets_get_lambda" {
-#   function_name    = "fetch_all_sets_by_courseId"
-#   filename         = data.archive_file.sets-zip.output_path
-#   source_code_hash = data.archive_file.sets-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "sets.sets_getter_by_courseId_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # get all recent sets ---------------------------------------------------------------
-# resource "aws_lambda_permission" "recent_sets_get_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.recent_sets_get_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "recent_sets_get_lambda" {
-#   function_name    = "fetch_all_recent_sets"
-#   filename         = data.archive_file.sets-zip.output_path
-#   source_code_hash = data.archive_file.sets-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "sets.recent_sets_getter_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # update set -------------------------------------------------------------------------
-# resource "aws_lambda_permission" "set_update_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.set_update_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "set_update_lambda" {
-#   function_name    = "update_set"
-#   filename         = data.archive_file.sets-zip.output_path
-#   source_code_hash = data.archive_file.sets-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "sets.set_update_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # delete set ----------------------------------------------------------------------
-# resource "aws_lambda_permission" "set_delete_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.set_update_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "set_delete_lambda" {
-#   function_name    = "delete_set"
-#   filename         = data.archive_file.sets-zip.output_path
-#   source_code_hash = data.archive_file.sets-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "sets.set_delete_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # get all questions by setId ------------------------------------------------------
-# resource "aws_lambda_permission" "questions_get_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.questions_get_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "questions_get_lambda" {
-#   function_name    = "fetch_questions_by_setId"
-#   filename         = data.archive_file.questions-zip.output_path
-#   source_code_hash = data.archive_file.questions-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "questions.questions_getter_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # update questions -------------------------------------------------------------------
-# resource "aws_lambda_permission" "question_update_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.question_update_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "question_update_lambda" {
-#   function_name    = "update_questions"
-#   filename         = data.archive_file.questions-zip.output_path
-#   source_code_hash = data.archive_file.questions-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "questions.question_update_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
-
-
-
-# # delete question -------------------------------------------------------------------
-# resource "aws_lambda_permission" "question_delete_lambda_perm" {
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.question_delete_lambda.function_name
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
-# }
-
-
-# resource "aws_lambda_function" "question_delete_lambda" {
-#   function_name    = "delete_question"
-#   filename         = data.archive_file.questions-zip.output_path
-#   source_code_hash = data.archive_file.questions-zip.output_base64sha256
-#   role             = aws_iam_role.iam_role_for_lambda.arn
-#   handler          = "questions.question_delete_handler"
-#   runtime          = "python3.10"
-#   depends_on       = [aws_iam_role_policy_attachment.attach_policy_to_role]
-# }
