@@ -47,7 +47,7 @@ def course_getter_handler(event, context):
             "body": json.dumps(ind_course, indent=3)
         }
     return{
-        "statusCode": 200,
+        "statusCode": 400,
         "body": json.dumps({'ERROR': 'The course id value was not valid or empty.'})
     }
 
