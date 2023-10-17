@@ -21,27 +21,6 @@ provider "aws" {
 }
 
 
-#exposes lambda resources to manage how they will manage their zip files
-provider "archive" {}
-
-
-
-locals {
-
-  type                       = "zip"
-  source_dir                 = "../lambdas"
-  output_path_course_lambdas = "../lambda-zips/courses.zip"
-}
-
-
-
-
-data "archive_file" "courses-zip" {
-  type        = local.type
-  source_dir  = local.source_dir
-  output_path = local.output_path_course_lambdas
-}
-
 
 
 resource "aws_iam_role" "iam_role_for_lambda" {
