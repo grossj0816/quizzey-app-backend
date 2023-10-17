@@ -1,1 +1,3 @@
 quizzey-backend/lambda-zips
+quizzey-backend/terraform/.terraform
+quizzey-backend/terraform/.terraform.lock.hcl
