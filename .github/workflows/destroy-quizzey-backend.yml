@@ -7,9 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repo
       - name: Git Checkout
         uses: actions/checkout@v4
 
+      # Configure AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -17,8 +19,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # Destroy Terraform
       - name: Destroy Terraform
-        working-directory: ./quizzey-backend
+        working-directory: ./quizzey-backend/terraform
         run: |
           rm -fr terraform.tfstate ||echo 'Does not exist'
           terraform init -input=false
