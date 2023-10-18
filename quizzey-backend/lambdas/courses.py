@@ -40,12 +40,11 @@ def course_getter_handler(event, context):
     ind_course = None
 
     if course_id is None:
-       ind_course = next(item for item in dicts if item["courseId"] == course_id)
-    
-        return{
+       ind_course = next(item for item in courses if item["courseId"] == course_id)
+       return{
             "statusCode": 200,
             "body": json.dumps(ind_course, indent=3)
-        }
+       }
     return{
         "statusCode": 400,
         "body": json.dumps({'ERROR': 'The course id value was not valid or empty.'})
