@@ -45,7 +45,7 @@ jobs:
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ secrets.AWS_REGION }}
 
-        Copy lambda zip to S3
+        # Copy lambda zip to S3
         - name: Copy lambdas to S3
           working-directory: ./
           run: |
