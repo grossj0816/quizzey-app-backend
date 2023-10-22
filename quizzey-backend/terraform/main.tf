@@ -27,33 +27,33 @@ locals {
 
 #  -------------------   Begin Networking  ---------------------------
 # querying quizzey vpc info
-data "aws_vpc" "quizzey_vpc" {
-  filter {
-    name = "tag:Name"
-    values = ["Quizzey VPC"]
-  }
-}
+# data "aws_vpc" "quizzey_vpc" {
+#   filter {
+#     name = "tag:Name"
+#     values = ["Quizzey VPC"]
+#   }
+# }
 
-# querying lambda security groups in quizzey vpc
-data "aws_security_groups" "lambda_sg" {
-  filter {
-    name = "group-name"
-    values = ["quizzey_lambda_sg"]
-  }
-}
+# # querying lambda security groups in quizzey vpc
+# data "aws_security_groups" "lambda_sg" {
+#   filter {
+#     name = "group-name"
+#     values = ["quizzey_lambda_sg"]
+#   }
+# }
 
-# querying lambda subnets in quizzey vpc
-data "aws_subnets" "lambda_subnets" {
-  filter {
-    name = "vpc-id"
-    values = [data.aws_vpc.quizzey_vpc.id] 
-  }
+# # querying lambda subnets in quizzey vpc
+# data "aws_subnets" "lambda_subnets" {
+#   filter {
+#     name = "vpc-id"
+#     values = [data.aws_vpc.quizzey_vpc.id] 
+#   }
 
-  filter {
-    name = "tag:Name"
-    values = local.subnets
-  }
-}
+#   filter {
+#     name = "tag:Name"
+#     values = local.subnets
+#   }
+# }
 #  -------------------   End Networking  ---------------------------
 
 
