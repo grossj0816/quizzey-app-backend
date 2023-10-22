@@ -46,8 +46,8 @@ jobs:
           working-directory: ../quizzey-backend
           run: |
             pwd; ls -la
-            aws s3 ls "**S3_BUCKET_LINK**"
-            aws s3 cp --quiet lambdas/lambdas.zip "**S3_BUCKET_LINK**"
+            aws s3 ls s3://tu-api-lambda-deploys/quizzey_app/
+            aws s3 cp --quiet lambdas/lambdas.zip s3://tu-api-lambda-deploys/quizzey_app/lambdas.zip
         
         # Deploy Terraform
         - name: Deploying Terraform
