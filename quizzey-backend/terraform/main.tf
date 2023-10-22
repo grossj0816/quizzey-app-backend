@@ -46,7 +46,7 @@ data "aws_security_groups" "lambda_sg" {
 data "aws_subnets" "lambda_subnets" {
   filter {
     name = "vpc-id"
-    values = [data.data.aws_vpc.quizzey_vpc.id] 
+    values = [data.aws_vpc.quizzey_vpc.id] 
   }
 
   filter {
