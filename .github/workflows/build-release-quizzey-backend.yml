@@ -45,15 +45,15 @@ jobs:
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ secrets.AWS_REGION }}
 
-        # Copy lambda zip to S3
-        # - name: Copy lambdas to S3
-        #   working-directory: ./
-        #   run: |
-        #     aws s3 ls s3://tu-api-lambda-deploys/
-        #   env:
-        #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  
-        #     AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+        Copy lambda zip to S3
+        - name: Copy lambdas to S3
+          working-directory: ./
+          run: |
+            aws s3 ls s3://tu-api-lambda-deploys/
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  
+            AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
         # # Deploy Terraform
         - name: Deploying Terraform
