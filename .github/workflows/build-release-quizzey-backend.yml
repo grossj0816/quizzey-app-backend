@@ -43,7 +43,7 @@ jobs:
 
         # Copy lambda zip to S3
         - name: Copy lambdas to S3
-          working-directory: ../quizzey-backend
+          working-directory: ./quizzey-backend
           run: |
             pwd; ls -la
             aws s3 ls s3://tu-api-lambda-deploys/quizzey_app/
