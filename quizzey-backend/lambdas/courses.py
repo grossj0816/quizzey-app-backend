@@ -19,7 +19,7 @@ courses = [
         'textbook':'Paramedic Hospital Clinical Version 1',
         'active':True
     },
-    {'courseId':7, 
+    {'courseId':6, 
         'name':'Paramedic Lab ', 
         'org':'SUNY Cobleskill', 
         'textbook':'Paramedic Lab Version 1',
