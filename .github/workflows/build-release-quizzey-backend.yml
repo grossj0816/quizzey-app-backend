@@ -47,11 +47,11 @@ jobs:
 
         # Copy lambda zip to S3
         - name: Copy lambdas to S3
-          working-directory: ./quizzey-backend/lambdas
+          working-directory: ./quizzey-backend/lambdas/
           run: |
             pwd; ls -la
             aws s3 ls s3://tu-api-lambda-deploys/quizzey_app/
-            aws s3 cp --quiet lambdas/lambdas.zip s3://tu-api-lambda-deploys/quizzey_app/lambdas.zip
+            aws s3 cp lambdas.zip s3://tu-api-lambda-deploys/quizzey_app/lambdas.zip
           env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  
