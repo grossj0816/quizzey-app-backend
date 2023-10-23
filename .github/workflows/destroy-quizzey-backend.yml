@@ -11,6 +11,14 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
+      # Package code
+      - name: Package code
+        working-directory: ./quizzey-backend/lambdas
+        run: |
+          zip lambdas.zip *.py
+          pwd; ls -la 
+          
+          
       # Configure AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
