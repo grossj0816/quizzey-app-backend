@@ -112,7 +112,7 @@ resource "aws_s3_object" "quizzey-object" {
   bucket    = "tu-api-lambda-deploys"
   key       = "quizzey_app/lambdas.zip"
   source    = "../lambdas/lambdas.zip"
-  etag      = filemd5("../lambdas/lambdas.zip")
+  # etag      = filemd5("../lambdas/lambdas.zip")
 }
 
 
