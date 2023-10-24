@@ -1,4 +1,7 @@
 import json
+import boto3
+import mysql.connector
+from mysql.connector import Error
 
 courses = [
     {'courseId':1, 
@@ -28,6 +31,19 @@ courses = [
 ]
 
 def courses_getter_handler(event, context):
+    try:
+        connection = mysql.connector.connect(host='', database='', user='', password='')
+        
+        if connection.is_connected():
+            db_info = connection.get_server_info()
+            print("Connected to MySQL Server version:", db_info)
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+    finally:
+        if connection.is_connected():
+            connection.close()
+            print("MySQL connection is closed.")
+            
     return{
         "statusCode": 200,
         "body": json.dumps(courses, indent=3)
