@@ -24,7 +24,7 @@ jobs:
         # Install Dependencies
         - name: Install Dependencies
           working-directory: ./quizzey-backend/lambdas
-          run: pip install --target ./package boto3
+          run: pip install --target ./package boto3 mysql-connector-python
 
         # Package Code
         - name: Package code
