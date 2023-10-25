@@ -142,11 +142,11 @@ resource "aws_lambda_function" "courses_get_lambda" {
   role             = aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.courses_getter_handler"
   runtime          = "python3.10"
-
-  vpc_config {
-    subnet_ids = data.aws_subnets.lambda_subnets.ids
-    security_group_ids = data.aws_security_groups.lambda_sg.ids
-  }
+  architectures    = ["arm64"] 
+  # vpc_config {
+  #   subnet_ids = data.aws_subnets.lambda_subnets.ids
+  #   security_group_ids = data.aws_security_groups.lambda_sg.ids
+  # }
 }
 
 
@@ -176,10 +176,11 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
   role             = aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.course_getter_handler"
   runtime          = "python3.10"
+  architectures    = ["arm64"] 
 
-  vpc_config {
-    subnet_ids = data.aws_subnets.lambda_subnets.ids
-    security_group_ids = data.aws_security_groups.lambda_sg.ids
-  }
+  # vpc_config {
+  #   subnet_ids = data.aws_subnets.lambda_subnets.ids
+  #   security_group_ids = data.aws_security_groups.lambda_sg.ids
+  # }
 }
 
