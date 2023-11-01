@@ -1,5 +1,6 @@
 import json
 import boto3
+import os
 import mysql.connector
 from mysql.connector import Error
 
@@ -32,6 +33,10 @@ courses = [
 
 def courses_getter_handler(event, context):
     try:
+        db_secret = os.environ.get('DB_SECRET')
+        db_secret_value = json.loads(get_secret(db_secret))
+
+
         connection = mysql.connector.connect(host='', database='', user='', password='')
         
         if connection.is_connected():

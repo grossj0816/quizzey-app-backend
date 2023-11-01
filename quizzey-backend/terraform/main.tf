@@ -22,38 +22,41 @@ provider "aws" {
 
 locals {
   subnets = ["Lambda Subnet 1", "Lambda Subnet 2"]
+  
+  secret_name = "DB_SECRET"
+
 }
 
 
 #  -------------------   Begin Networking  ---------------------------
 # querying quizzey vpc info
-# data "aws_vpc" "quizzey_vpc" {
-#   filter {
-#     name = "tag:Name"
-#     values = ["Quizzey VPC"]
-#   }
-# }
+data "aws_vpc" "quizzey_vpc" {
+  filter {
+    name = "tag:Name"
+    values = ["Quizzey VPC"]
+  }
+}
 
-# # querying lambda security groups in quizzey vpc
-# data "aws_security_groups" "lambda_sg" {
-#   filter {
-#     name = "group-name"
-#     values = ["quizzey_lambda_sg"]
-#   }
-# }
+# querying lambda security groups in quizzey vpc
+data "aws_security_groups" "lambda_sg" {
+  filter {
+    name = "group-name"
+    values = ["quizzey_lambda_sg"]
+  }
+}
 
-# # querying lambda subnets in quizzey vpc
-# data "aws_subnets" "lambda_subnets" {
-#   filter {
-#     name = "vpc-id"
-#     values = [data.aws_vpc.quizzey_vpc.id] 
-#   }
+# querying lambda subnets in quizzey vpc
+data "aws_subnets" "lambda_subnets" {
+  filter {
+    name = "vpc-id"
+    values = [data.aws_vpc.quizzey_vpc.id] 
+  }
 
-#   filter {
-#     name = "tag:Name"
-#     values = local.subnets
-#   }
-# }
+  filter {
+    name = "tag:Name"
+    values = local.subnets
+  }
+}
 #  -------------------   End Networking  ---------------------------
 
 
@@ -143,10 +146,16 @@ resource "aws_lambda_function" "courses_get_lambda" {
   handler          = "courses.courses_getter_handler"
   runtime          = "python3.10"
   architectures    = ["arm64"] 
-  # vpc_config {
-  #   subnet_ids = data.aws_subnets.lambda_subnets.ids
-  #   security_group_ids = data.aws_security_groups.lambda_sg.ids
-  # }
+  vpc_config {
+    subnet_ids = data.aws_subnets.lambda_subnets.ids
+    security_group_ids = data.aws_security_groups.lambda_sg.ids
+  }
+
+  environment {
+    variables = {
+      DB_SECRET = local.secret_name
+    }
+  }
 }
 
 
@@ -178,9 +187,15 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
   runtime          = "python3.10"
   architectures    = ["arm64"] 
 
-  # vpc_config {
-  #   subnet_ids = data.aws_subnets.lambda_subnets.ids
-  #   security_group_ids = data.aws_security_groups.lambda_sg.ids
-  # }
+  vpc_config {
+    subnet_ids = data.aws_subnets.lambda_subnets.ids
+    security_group_ids = data.aws_security_groups.lambda_sg.ids
+  }
+
+  environment {
+    variables = {
+      DB_SECRET = local.secret_name
+    }
+  }
 }
 
