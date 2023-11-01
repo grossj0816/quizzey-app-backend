@@ -3,6 +3,7 @@ import boto3
 import os
 import mysql.connector
 from mysql.connector import Error
+from functions import *
 
 courses = [
     {'courseId':1, 
