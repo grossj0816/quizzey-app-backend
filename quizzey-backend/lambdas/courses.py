@@ -35,9 +35,13 @@ def courses_getter_handler(event, context):
     try:
         db_secret = os.environ.get('DB_SECRET')
         db_secret_value = json.loads(get_secret(db_secret))
+        
+        host = db_secret_value['host']
+        db_name = db_secret_value['dbname']
+        username = db_secret_value['username']
+        password = db_secret_value['password']
 
-
-        connection = mysql.connector.connect(host='', database='', user='', password='')
+        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
         
         if connection.is_connected():
             db_info = connection.get_server_info()
