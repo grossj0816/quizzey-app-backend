@@ -33,32 +33,34 @@ courses = [
 ]
 
 def courses_getter_handler(event, context):
-    try:
-        db_secret = os.environ.get('DB_SECRET')
-        db_secret_value = json.loads(get_secret(db_secret))
-        
-        host = db_secret_value['host']
-        db_name = db_secret_value['dbname']
-        username = db_secret_value['username']
-        password = db_secret_value['password']
+    db_secret = os.environ.get('DB_SECRET')
+    db_secret_value = json.loads(get_secret(db_secret))
+    
+    host = db_secret_value['host']
+    db_name = db_secret_value['dbname']
+    username = db_secret_value['username']
+    password = db_secret_value['password']
 
-        print("host: ", host)
-        print("db_name: ", db_name)
-        print("username: ", username)
-        print("password: ", password)
+    print("db_secret_value", db_secret_value)
+    print("host: ", host)
+    print("db_name: ", db_name)
+    print("username: ", username)
+    print("password: ", password)
        
+    
+    # try:
 
-        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+    #     connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
         
-        if connection.is_connected():
-            db_info = connection.get_server_info()
-            print("Connected to MySQL Server version:", db_info)
-    except Error as e:
-        print('Error while connecting to MySQL...', e)
-    finally:
-        if connection.is_connected():
-            connection.close()
-            print("MySQL connection is closed.")
+    #     if connection.is_connected():
+    #         db_info = connection.get_server_info()
+    #         print("Connected to MySQL Server version:", db_info)
+    # except Error as e:
+    #     print('Error while connecting to MySQL...', e)
+    # finally:
+    #     if connection.is_connected():
+    #         connection.close()
+    #         print("MySQL connection is closed.")
             
     return{
         "statusCode": 200,
