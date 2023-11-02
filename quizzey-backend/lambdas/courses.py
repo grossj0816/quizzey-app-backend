@@ -50,7 +50,8 @@ def courses_getter_handler(event, context):
     # print("password: ", password)
 
     print(db_secret)   
-    
+    print(db_secret_value)   
+
     # try:
 
     #     connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
