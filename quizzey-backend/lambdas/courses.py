@@ -42,6 +42,12 @@ def courses_getter_handler(event, context):
         username = db_secret_value['username']
         password = db_secret_value['password']
 
+        print("host: ", host)
+        print("db_name: ", db_name)
+        print("username: ", username)
+        print("password: ", password)
+       
+
         connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
         
         if connection.is_connected():
