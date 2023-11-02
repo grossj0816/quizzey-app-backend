@@ -36,7 +36,7 @@ print("Start")
 
 def courses_getter_handler(event, context):
     db_secret = os.environ.get('DB_SECRET')
-    # db_secret_value = json.loads(get_secret(db_secret))
+    db_secret_value = json.loads(get_secret(db_secret))
     
     # host = db_secret_value['host']
     # db_name = db_secret_value['dbname']
@@ -50,6 +50,7 @@ def courses_getter_handler(event, context):
     # print("password: ", password)
 
     print(db_secret)   
+    print(db_secret_value)   
     
     # try:
 
