@@ -169,7 +169,7 @@ resource "aws_lambda_function" "courses_get_lambda" {
   handler          = "courses.courses_getter_handler"
   runtime          = "python3.10"
   architectures    = ["arm64"]
-  timeout          = 120
+  timeout          = 240
   vpc_config {
     subnet_ids         = data.aws_subnets.lambda_subnets.ids
     security_group_ids = data.aws_security_groups.lambda_sg.ids
@@ -211,7 +211,7 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
   handler          = "courses.course_getter_handler"
   runtime          = "python3.10"
   architectures    = ["arm64"]
-  timeout          = 120
+  timeout          = 240
 
   vpc_config {
     subnet_ids         = data.aws_subnets.lambda_subnets.ids
