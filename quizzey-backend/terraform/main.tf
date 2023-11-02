@@ -128,6 +128,7 @@ resource "aws_lambda_permission" "courses_get_lambda_perm" {
 resource "aws_cloudwatch_log_group" "courses_get_lambda" {
   name = "/aws/lambda/${aws_lambda_function.courses_get_lambda.function_name}"
   retention_in_days = 30
+  skip_destroy = false
 }
 
 resource "aws_lambda_function" "courses_get_lambda" {
@@ -162,6 +163,7 @@ resource "aws_lambda_permission" "ind_course_get_lambda_perm" {
 resource "aws_cloudwatch_log_group" "ind_course_get_lambda" {
   name = "/aws/lambda/${aws_lambda_function.ind_course_get_lambda.function_name}"
   retention_in_days = 30
+  skip_destroy = false
 }
 
 resource "aws_lambda_function" "ind_course_get_lambda" {
