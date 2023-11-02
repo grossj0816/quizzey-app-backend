@@ -3,4 +3,4 @@ from botocore.exceptions import ClientError
 
 
 def get_secret(secret):
-    return "Hello"
+    return secret + "HELLO"
