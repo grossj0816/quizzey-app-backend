@@ -108,6 +108,17 @@ resource "aws_iam_policy" "iam_policy_for_lambda" {
             ],
             "Resource": "*",
             "Effect": "Allow"  
+        },
+        {
+            "Action": [
+              "secretsmanager:GetResourcePolicy",
+              "secretsmanager:GetSecretValue",
+              "secretsmanager:DescribeSecret",
+              "secretsmanager:ListSecrets",
+              "secretsmanager:ListSecretVersionIds"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
         }
     ]    
 }
