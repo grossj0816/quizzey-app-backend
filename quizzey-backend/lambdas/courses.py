@@ -32,6 +32,8 @@ courses = [
     },        
 ]
 
+print("Start")
+
 def courses_getter_handler(event, context):
     db_secret = os.environ.get('DB_SECRET')
     db_secret_value = json.loads(get_secret(db_secret))

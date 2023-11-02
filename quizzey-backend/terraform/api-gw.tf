@@ -21,7 +21,7 @@ resource "aws_api_gateway_resource" "courses" {
 resource "aws_api_gateway_resource" "course" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
   parent_id   = aws_api_gateway_resource.courses.id
-  path_part   = "{courseId}" 
+  path_part   = "{courseId}"
 }
 
 
@@ -39,7 +39,7 @@ module "get_courses" {
 
 
 
-module "get_course"{
+module "get_course" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
   resource        = aws_api_gateway_resource.course
