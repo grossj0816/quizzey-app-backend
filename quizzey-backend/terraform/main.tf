@@ -22,9 +22,6 @@ provider "aws" {
 
 locals {
   subnets = ["Lambda Subnet 1", "Lambda Subnet 2"]
-
-  secret_name = "DB_SECRET"
-
 }
 
 
@@ -58,6 +55,17 @@ data "aws_subnets" "lambda_subnets" {
   }
 }
 #  -------------------   End Networking  ---------------------------
+
+#  -------------------   Begin Pulling Secret  ---------------------------
+  data "aws_secretsmanager_secret" "db_secret" {
+    name = "DB_SECRET"
+  }
+
+  data "aws_secretsmanager_secret_version" "secret_credentials" {
+    secret_id = data.aws_secretsmanager_secret.db_secret.id
+  }
+#  -------------------   End Pulling Secret  ---------------------------
+
 
 
 resource "aws_iam_role" "iam_role_for_lambda" {
@@ -108,17 +116,6 @@ resource "aws_iam_policy" "iam_policy_for_lambda" {
             ],
             "Resource": "*",
             "Effect": "Allow"  
-        },
-        {
-            "Action": [
-              "secretsmanager:GetResourcePolicy",
-              "secretsmanager:GetSecretValue",
-              "secretsmanager:DescribeSecret",
-              "secretsmanager:ListSecrets",
-              "secretsmanager:ListSecretVersionIds"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"
         }
     ]    
 }
@@ -177,7 +174,10 @@ resource "aws_lambda_function" "courses_get_lambda" {
 
   environment {
     variables = {
-      DB_SECRET = local.secret_name
+      HOST = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["host"]
+      DATABASE_NAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["dbname"]
+      USERNAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["username"]
+      PASSWORD = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["password"]
     }
   }
 }
@@ -220,7 +220,10 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
 
   environment {
     variables = {
-      DB_SECRET = local.secret_name
+      HOST = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["host"]
+      DATABASE_NAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["dbname"]
+      USERNAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["username"]
+      PASSWORD = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["password"]
     }
   }
 }
