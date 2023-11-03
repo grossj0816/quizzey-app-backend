@@ -46,19 +46,19 @@ def courses_getter_handler(event, context):
     print("password: ", password)
 
 
-    # try:
+    try:
 
-    #     connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
         
-    #     if connection.is_connected():
-    #         db_info = connection.get_server_info()
-    #         print("Connected to MySQL Server version:", db_info)
-    # except Error as e:
-    #     print('Error while connecting to MySQL...', e)
-    # finally:
-    #     if connection.is_connected():
-    #         connection.close()
-    #         print("MySQL connection is closed.")
+        if connection.is_connected():
+            db_info = connection.get_server_info()
+            print("Connected to MySQL Server version:", db_info)
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+    finally:
+        if connection.is_connected():
+            connection.close()
+            print("MySQL connection is closed.")
             
     return{
         "statusCode": 200,
