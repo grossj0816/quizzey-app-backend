@@ -45,8 +45,6 @@ def courses_getter_handler(event, context):
     print("username: ", username)
     print("password: ", password)
 
-    print(db_secret)   
-    print(db_secret_value)   
 
     # try:
 
