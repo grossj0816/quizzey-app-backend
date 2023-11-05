@@ -66,70 +66,14 @@ data "aws_subnets" "lambda_subnets" {
   }
 #  -------------------   End Pulling Secret  ---------------------------
 
-
-
-resource "aws_iam_role" "iam_role_for_lambda" {
+# IAM Role for Lambda -------------------------------------------------
+data "aws_iam_role" "iam_role_for_lambda" {
   name = "iam_role_for_quizzey_lambdas"
-
-  assume_role_policy = <<EOF
-    {
-        "Version":"2012-10-17",
-        "Statement": [
-            {
-                "Action":"sts:AssumeRole",
-                "Principal": {
-                    "Service": "lambda.amazonaws.com"
-                },
-                "Effect": "Allow",
-                "Sid": ""
-            }
-        ]
-    }
-      EOF 
-}
-
-
-resource "aws_iam_policy" "iam_policy_for_lambda" {
-  name        = "iam_policy_for_quizzey_lambdas"
-  path        = "/"
-  description = "AWS IAM Policy for managing aws lambda role"
-  policy      = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "arn:aws:logs:*:*:*",
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-              "ec2:DescribeNetworkInterfaces",
-              "ec2:CreateNetworkInterface",
-              "ec2:DeleteNetworkInterface",
-              "ec2:DescribeInstances",
-              "ec2:AttachNetworkInterface"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"  
-        }
-    ]    
-}
-    EOF
 }
 
 
 
-resource "aws_iam_role_policy_attachment" "attach_policy_to_role" {
-  role       = aws_iam_role.iam_role_for_lambda.name
-  policy_arn = aws_iam_policy.iam_policy_for_lambda.arn
-}
-
-
+# S3 object storing lambda zip
 resource "aws_s3_object" "quizzey-object" {
   bucket = "tu-api-lambda-deploys"
   key    = "quizzey_app/lambdas.zip"
@@ -162,7 +106,7 @@ resource "aws_lambda_function" "courses_get_lambda" {
   s3_key           = "quizzey_app/lambdas.zip"
   function_name    = "fetch_all_courses"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
-  role             = aws_iam_role.iam_role_for_lambda.arn
+  role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.courses_getter_handler"
   runtime          = "python3.10"
   architectures    = ["arm64"]
@@ -207,7 +151,7 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
   s3_key           = "quizzey_app/lambdas.zip"
   function_name    = "fetch_course"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
-  role             = aws_iam_role.iam_role_for_lambda.arn
+  role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.course_getter_handler"
   runtime          = "python3.10"
   architectures    = ["arm64"]
