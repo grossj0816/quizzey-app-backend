@@ -12,6 +12,12 @@ resource "aws_api_gateway_rest_api" "quizzey-api-gateway" {
 
 
 # setting all endpoint resources ------------------------------------------------------------
+resource "aws_api_gateway_resource" "create_tables" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.root_resource_id
+  path_part   = "create_tables"
+}
+
 resource "aws_api_gateway_resource" "courses" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
   parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.root_resource_id
@@ -28,6 +34,17 @@ resource "aws_api_gateway_resource" "course" {
 
 
 # modules for all method specific endpoints I want to create -------------------------------
+module "create_tables" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.create_tables
+  lambda_function = ""
+  authorization   = "NONE"
+  httpmethod      = "GET"
+}
+
+
+
 module "get_courses" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
