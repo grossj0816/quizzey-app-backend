@@ -109,9 +109,7 @@ def create_new_course_handler(event, context):
                      "VALUES (%s, %s, %s, %s, %s, %s)") 
 
             data_for_query = ("Human Anatomy & Physiology", "SUNY Cobleskill", "Human Anatomy & Physiology Version 1", True, "SYS-ADMIN", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-
             cursor.execute(query, data_for_query)
-            print(cursor)
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
@@ -122,7 +120,7 @@ def create_new_course_handler(event, context):
             
     return{
         "statusCode": 200,
-        "body": json.dumps(cursor, indent=3)
+        "body": json.dumps({'Success': 'Course creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
 # def course_update_handler(event, context):
