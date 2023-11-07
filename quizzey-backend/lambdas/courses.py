@@ -110,6 +110,9 @@ def create_new_course_handler(event, context):
 
             data_for_query = ("Human Anatomy & Physiology", "SUNY Cobleskill", "Human Anatomy & Physiology Version 1", True, "SYS-ADMIN", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             cursor.execute(query, data_for_query)
+
+            # Commit dada to db
+            connection.commit()
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
