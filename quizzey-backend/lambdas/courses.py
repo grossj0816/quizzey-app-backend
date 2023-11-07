@@ -85,7 +85,7 @@ def course_getter_handler(event, context):
     }
 
 
-def create_new_course_handler(event, context)
+def create_new_course_handler(event, context):
     host = os.environ.get('HOST')
     db_name = os.environ.get('DATABASE_NAME')
     username = os.environ.get('USERNAME')
