@@ -33,4 +33,7 @@ def all_tables_create_handler(event, context):
         if connection.is_connected():
             connection.close()
             print("MySQL connection is closed.")
-    return {}
+    return{
+        "statusCode": 200,
+        "body": json.dumps({'Success': 'Database creation process has completed. Double check if you tables were added correctly.'})
+    }

@@ -104,7 +104,7 @@ resource "aws_lambda_function" "create_tables_lambda" {
   ]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "create_tables"
+  function_name    = "create_quizzeydb_tables"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "db_scripts.all_tables_create_handler"

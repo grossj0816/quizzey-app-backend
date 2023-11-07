@@ -38,7 +38,7 @@ module "create_tables" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
   resource        = aws_api_gateway_resource.create_tables
-  lambda_function = ""
+  lambda_function = aws_lambda_function.create_tables_lambda
   authorization   = "NONE"
   httpmethod      = "GET"
 }
