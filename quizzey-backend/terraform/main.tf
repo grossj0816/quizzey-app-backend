@@ -145,10 +145,7 @@ resource "aws_cloudwatch_log_group" "courses_get_lambda" {
 }
 
 resource "aws_lambda_function" "courses_get_lambda" {
-  depends_on = [
-    aws_s3_object.quizzey-object,
-    aws_iam_role_policy_attachment.attach_policy_to_role
-  ]
+  depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
   function_name    = "fetch_all_courses"
@@ -190,10 +187,7 @@ resource "aws_cloudwatch_log_group" "ind_course_get_lambda" {
 }
 
 resource "aws_lambda_function" "ind_course_get_lambda" {
-  depends_on = [
-    aws_s3_object.quizzey-object,
-    aws_iam_role_policy_attachment.attach_policy_to_role
-  ]
+  depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
   function_name    = "fetch_course"
