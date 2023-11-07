@@ -53,7 +53,8 @@ def courses_getter_handler(event, context):
             #Select all records from courses table    
             query = ("SELECT * FROM courses")
             cursor.execute(query)
-            print(cursor)
+            
+            rows = cursor.fetchAll()    
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
@@ -64,7 +65,7 @@ def courses_getter_handler(event, context):
             
     return{
         "statusCode": 200,
-        "body": json.dumps(cursor, indent=3)
+        "body": json.dumps(rows, indent=3)
     }
 
 
