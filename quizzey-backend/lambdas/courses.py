@@ -65,7 +65,7 @@ def courses_getter_handler(event, context):
             
     return{
         "statusCode": 200,
-        "body": json.dumps(rows, indent=3)
+        "body": json.dumps(rows, indent=3, sort_keys=True, default=str)
     }
 
 
