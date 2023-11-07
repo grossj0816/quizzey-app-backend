@@ -49,10 +49,17 @@ def courses_getter_handler(event, context):
     try:
 
         connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        
+        cursor = connection.cursor()
+
         if connection.is_connected():
             db_info = connection.get_server_info()
             print("Connected to MySQL Server version:", db_info)
+            
+            cursor.execute("Show tables;")
+            myresult = mycursor.fetchall()
+
+            for x in myresult:
+                print(x)
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
