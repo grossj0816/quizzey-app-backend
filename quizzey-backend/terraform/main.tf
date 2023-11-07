@@ -98,10 +98,7 @@ resource "aws_cloudwatch_log_group" "create_tables_lambda" {
 }
 
 resource "aws_lambda_function" "create_tables_lambda" {
-  depends_on = [
-    aws_s3_object.quizzey-object,
-    aws_iam_role_policy_attachment.attach_policy_to_role
-  ]
+  depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
   function_name    = "create_quizzeydb_tables"
