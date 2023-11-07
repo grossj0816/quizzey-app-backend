@@ -55,8 +55,8 @@ def courses_getter_handler(event, context):
             db_info = connection.get_server_info()
             print("Connected to MySQL Server version:", db_info)
             
-            cursor.execute("Show tables;")
-            myresult = mycursor.fetchall()
+            cursor.execute("SHOW TABLES;")
+            myresult = cursor.fetchall()
 
             for x in myresult:
                 print(x)
