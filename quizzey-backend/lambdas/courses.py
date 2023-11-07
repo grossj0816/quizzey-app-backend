@@ -54,7 +54,7 @@ def courses_getter_handler(event, context):
             query = ("SELECT * FROM courses")
             cursor.execute(query)
             
-            rows = cursor.fetchAll()    
+            rows = cursor.fetchall()    
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
