@@ -10,11 +10,6 @@ def all_tables_create_handler(event, context):
     username = os.environ.get('USERNAME')
     password = os.environ.get('PASSWORD')
 
-    # print("host: ", host)
-    # print("db_name: ", db_name)
-    # print("username: ", username)
-    # print("password: ", password)  
-
     try:
         connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
         cursor = connection.cursor()
@@ -31,6 +26,7 @@ def all_tables_create_handler(event, context):
         print('Error while connecting to MySQL...', e)
     finally:
         if connection.is_connected():
+            cursor.close()
             connection.close()
             print("MySQL connection is closed.")
     return{

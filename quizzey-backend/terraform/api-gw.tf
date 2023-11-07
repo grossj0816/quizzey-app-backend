@@ -67,12 +67,22 @@ module "get_course" {
 
 
 
+module "create_course" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.course
+  lambda_function = aws_lambda_function.create_course_lambda
+  authorization   = "NONE"
+  httpmethod      = "POST"
+}
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
   depends_on = [
+    module.create_tables,
     module.get_courses,
-    module.get_course
+    module.get_course,
+    module.create_course
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting

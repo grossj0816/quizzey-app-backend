@@ -1,8 +1,8 @@
 import json
 import os
+import datetime
 import mysql.connector
 from mysql.connector import Error
-from functions import *
 
 
 courses = [
@@ -40,36 +40,31 @@ def courses_getter_handler(event, context):
     username = os.environ.get('USERNAME')
     password = os.environ.get('PASSWORD')
 
-    # print("host: ", host)
-    # print("db_name: ", db_name)
-    # print("username: ", username)
-    # print("password: ", password)
-
 
     try:
 
         connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        cursor = connection.cursor()
+        cursor = connection.cursor(dictionary=True)
 
         if connection.is_connected():
             db_info = connection.get_server_info()
             print("Connected to MySQL Server version:", db_info)
             
-            cursor.execute("SHOW TABLES;")
-            myresult = cursor.fetchall()
-
-            for x in myresult:
-                print(x)
+            #Select all records from courses table    
+            query = ("SELECT * FROM courses")
+            cursor.execute(query)
+            print(cursor)
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
         if connection.is_connected():
+            cursor.close()
             connection.close()
             print("MySQL connection is closed.")
             
     return{
         "statusCode": 200,
-        "body": json.dumps(courses, indent=3)
+        "body": json.dumps(cursor, indent=3)
     }
 
 
@@ -89,6 +84,46 @@ def course_getter_handler(event, context):
         "body": json.dumps({'ERROR': 'The course id value was not valid or empty.'})
     }
 
+
+def create_new_course_handler(event)
+    host = os.environ.get('HOST')
+    db_name = os.environ.get('DATABASE_NAME')
+    username = os.environ.get('USERNAME')
+    password = os.environ.get('PASSWORD')
+
+
+    try:
+
+        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+        cursor = connection.cursor(dictionary=True)
+
+        if connection.is_connected():
+            db_info = connection.get_server_info()
+            print("Connected to MySQL Server version:", db_info)
+            
+
+            #Select all records from courses table    
+            query = (
+                "INSERT INTO courses"
+                "(courseName, organization, textbook, active, createdBy, createdDate)"
+                "VALUES (%s, %s, %s, %s, %s, %s)") 
+
+            data_for_query = ("Human Anatomy & Physiology", "SUNY Cobleskill", "Human Anatomy & Physiology Version 1", True, "SYS-ADMIN", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+            cursor.execute(query)
+            print(cursor)
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("MySQL connection is closed.")
+            
+    return{
+        "statusCode": 200,
+        "body": json.dumps(cursor, indent=3)
+    }
 
 # def course_update_handler(event, context):
 #     return{}
