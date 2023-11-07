@@ -40,10 +40,10 @@ def courses_getter_handler(event, context):
     username = os.environ.get('USERNAME')
     password = os.environ.get('PASSWORD')
 
-    print("host: ", host)
-    print("db_name: ", db_name)
-    print("username: ", username)
-    print("password: ", password)
+    # print("host: ", host)
+    # print("db_name: ", db_name)
+    # print("username: ", username)
+    # print("password: ", password)
 
 
     try:
