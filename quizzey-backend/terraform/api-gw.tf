@@ -75,6 +75,20 @@ module "create_course" {
   authorization   = "NONE"
   httpmethod      = "POST"
 }
+
+
+
+# module "update_course" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.course
+#   lambda_function = ""
+#   authorization   = "NONE"
+#   httpmethod      = "PUT"
+# }
+
+
+
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
