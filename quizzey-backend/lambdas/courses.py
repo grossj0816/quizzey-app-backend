@@ -160,6 +160,7 @@ def update_course_handler(event, context):
 
     request_body = json.loads(event['body'])
 
+    course_id = request_body['courseId']
     course_name = request_body['courseName']
     organization = request_body['organization']
     textbook = request_body['textbook']
@@ -167,6 +168,7 @@ def update_course_handler(event, context):
     created_by = request_body['createdBy']
     created_date = request_body['createdDate']
 
+    print(course_id)
     print(course_name)
     print(organization)
     print(textbook)
@@ -189,7 +191,7 @@ def update_course_handler(event, context):
     #                  "SET(courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s)"
     #                  "WHERE courseId = %s") 
 
-    #         data_for_query = ("Human Anatomy & Physiologysss", "SUNY Cobleskill", "Human Anatomy & Physiology Version 1", True, "SYS-ADMIN", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 1)
+    #         data_for_query = (course_name, organization, textbook, active, created_by, created_date, course_id)
     #         cursor.execute(query, data_for_query)
 
     #         # Commit data to db
