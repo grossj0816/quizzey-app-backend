@@ -92,7 +92,7 @@ def create_new_course_handler(event, context):
     username = os.environ.get('USERNAME')
     password = os.environ.get('PASSWORD')
 
-    request_body = json.loads(event.body)
+    request_body = json.loads(event['body'])
 
     course_name = request_body['courseName']
     organization = request_body['organization']
