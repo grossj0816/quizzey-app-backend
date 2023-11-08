@@ -78,14 +78,14 @@ module "create_course" {
 
 
 
-# module "update_course" {
-#   source          = "./gw-method-and-intg-resources"
-#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-#   resource        = aws_api_gateway_resource.course
-#   lambda_function = ""
-#   authorization   = "NONE"
-#   httpmethod      = "PUT"
-# }
+module "update_course" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.courses
+  lambda_function = aws_lambda_function.update_course_lambda
+  authorization   = "NONE"
+  httpmethod      = "PUT"
+}
 
 
 
@@ -96,7 +96,8 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.create_tables,
     module.get_courses,
     module.get_course,
-    module.create_course
+    module.create_course,
+    module.update_course
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting

@@ -34,6 +34,7 @@ courses = [
 
 print("Loading function")
 
+# Retrieve all active courses
 def courses_getter_handler(event, context):
     host = os.environ.get('HOST')
     db_name = os.environ.get('DATABASE_NAME')
@@ -65,10 +66,11 @@ def courses_getter_handler(event, context):
             
     return{
         "statusCode": 200,
-        "body": json.dumps(rows, indent=3, sort_keys=True, default=str)
+        "body": json.dumps(rows, indent=3, default=str)
     }
 
 
+# Retrieve a single course record by courseId
 def course_getter_handler(event, context):
     
     course_id = event['pathParameters']['courseId']
@@ -86,6 +88,9 @@ def course_getter_handler(event, context):
     }
 
 
+
+
+# Create a new course record
 def create_new_course_handler(event, context):
     host = os.environ.get('HOST')
     db_name = os.environ.get('DATABASE_NAME')
@@ -143,42 +148,61 @@ def create_new_course_handler(event, context):
         "body": json.dumps({'Success': 'Course creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
+
+
+
+#Update a pre-existing course record by courseId
 def update_course_handler(event, context):
     host = os.environ.get('HOST')
     db_name = os.environ.get('DATABASE_NAME')
     username = os.environ.get('USERNAME')
     password = os.environ.get('PASSWORD')
 
+    request_body = json.loads(event['body'])
 
-    try:
+    course_name = request_body['courseName']
+    organization = request_body['organization']
+    textbook = request_body['textbook']
+    active = request_body['active']
+    created_by = request_body['createdBy']
+    created_date = request_body['createdDate']
 
-        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        cursor = connection.cursor(dictionary=True)
+    print(course_name)
+    print(organization)
+    print(textbook)
+    print(active)
+    print(created_by)
+    print(created_date)
 
-        if connection.is_connected():
-            db_info = connection.get_server_info()
-            print("Connected to MySQL Server version:", db_info)
+    # try:
+
+    #     connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+    #     cursor = connection.cursor(dictionary=True)
+
+    #     if connection.is_connected():
+    #         db_info = connection.get_server_info()
+    #         print("Connected to MySQL Server version:", db_info)
             
 
-            #Select all records from courses table    
-            query = ("UPDATE courses"
-                     "SET(courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s)"
-                     "WHERE courseId = %s") 
+    #         #Select all records from courses table    
+    #         query = ("UPDATE courses"
+    #                  "SET(courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s)"
+    #                  "WHERE courseId = %s") 
 
-            data_for_query = ("Human Anatomy & Physiologysss", "SUNY Cobleskill", "Human Anatomy & Physiology Version 1", True, "SYS-ADMIN", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 1)
-            cursor.execute(query, data_for_query)
+    #         data_for_query = ("Human Anatomy & Physiologysss", "SUNY Cobleskill", "Human Anatomy & Physiology Version 1", True, "SYS-ADMIN", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 1)
+    #         cursor.execute(query, data_for_query)
 
-            # Commit data to db
-            connection.commit()
-    except Error as e:
-        print('Error while connecting to MySQL...')
-        connection.rollback()
-        print('Rollbacked db commit due to error...', e)
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("MySQL connection is closed.")
+    #         # Commit data to db
+    #         connection.commit()
+    # except Error as e:
+    #     print('Error while connecting to MySQL...')
+    #     connection.rollback()
+    #     print('Rollbacked db commit due to error...', e)
+    # finally:
+    #     if connection.is_connected():
+    #         cursor.close()
+    #         connection.close()
+    #         print("MySQL connection is closed.")
             
     return{
         "statusCode": 200,
