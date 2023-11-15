@@ -48,6 +48,7 @@ def course_getter_handler(event, context):
     
     course_id = event['pathParameters']['courseId']
     ind_course = None
+    row = None
 
     if course_id is None:       
         return{
