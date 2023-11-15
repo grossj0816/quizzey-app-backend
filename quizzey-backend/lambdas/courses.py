@@ -168,6 +168,8 @@ def update_course_handler(event, context):
     created_by = request_body['createdBy']
     created_date = request_body['createdDate']
 
+    created_date_obj = datetime.datetime.strptime(created_date, '%Y-%m-%d %H:%M:%S')
+
     print(course_id)
     print(course_name)
     print(organization)
@@ -191,7 +193,7 @@ def update_course_handler(event, context):
                      "SET(courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s)"
                      "WHERE courseId = %s") 
 
-            data_for_query = (course_name, organization, textbook, True, created_by, created_date, course_id)
+            data_for_query = (course_name, organization, textbook, True, created_by, created_date_obj, course_id)
             cursor.execute(query, data_for_query)
 
             # Commit data to db
