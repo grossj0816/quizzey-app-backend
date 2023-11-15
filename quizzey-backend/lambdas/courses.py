@@ -170,7 +170,7 @@ def update_course_handler(event, context):
                      "SET courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s"
                      "WHERE courseId = %s") 
 
-            data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
+            data_for_query = (course_name, organization, textbook, True, created_by, created_date_obj, course_id)
             cursor.execute(query, data_for_query)
 
             # Commit data to db
