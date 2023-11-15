@@ -64,9 +64,8 @@ def course_getter_handler(event, context):
                 print("Connected to MySQL Server version:", db_info)      
                 
                 #Select all course records from courses table where the active flag is set to true.    
-                query = ("SELECT * FROM courses where courseId = %s")
-                cursor.execute(query, course_id)
-            
+                query = ("SELECT * FROM courses where courseId = %(course_id)s")
+                cursor.execute(query, {'course_id': course_id})
                 row = cursor.fetchone()      
         except Error as e:
             print('Error while connecting to MySQL...', e)
@@ -170,7 +169,7 @@ def update_course_handler(event, context):
                      "SET(courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s)"
                      "WHERE courseId = %s") 
 
-            data_for_query = (course_name, organization, textbook, True, created_by, created_date_obj, course_id)
+            data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
             cursor.execute(query, data_for_query)
 
             # Commit data to db
