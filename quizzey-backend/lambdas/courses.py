@@ -167,7 +167,7 @@ def update_course_handler(event, context):
 
             #Select all records from courses table    
             query = ("UPDATE courses"
-                     "SET(courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s)"
+                     "SET courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s"
                      "WHERE courseId = %s") 
 
             data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
