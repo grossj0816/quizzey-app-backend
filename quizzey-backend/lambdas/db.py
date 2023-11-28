@@ -28,5 +28,6 @@ class DbUtils:
     # db connection is terminated here...
     def __exit__(self, exc_type, exc_value, exc_tb):
         if self.connection != None:
+            print("Traceback: " + exc_tb)
             self.connection.close()
             print('CONNECTION CLOSED...')
