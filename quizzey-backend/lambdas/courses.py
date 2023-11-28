@@ -97,7 +97,7 @@ def create_new_course_handler(event, context):
                 print("Connected to MySQL Server version:", db_info)
                 
                 if isinstance(course_name, str) and isinstance(organization, str) and 
-                   isinstance(textbook, str) and isinstance(active, bool) and isinstance(created_by, str)
+                   isinstance(textbook, str) and isinstance(active, bool) and isinstance(created_by, str):
                     #Select all records from courses table    
                     query = ("INSERT INTO courses"
                             "(courseName, organization, textbook, active, createdBy, createdDate)"
