@@ -88,9 +88,6 @@ def create_new_course_handler(event, context):
     print(created_date)
 
     try:
-
-        # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        # cursor = connection.cursor(dictionary=True)
         with DbUtils(host, db_name, username, password) as db:
             if db.is_connected():
                 db_info = db.get_server_info()
@@ -122,7 +119,7 @@ def create_new_course_handler(event, context):
 
 
 
-
+# TODO: Update the code over for this way next
 #Update a pre-existing course record by courseId
 def update_course_handler(event, context):
     request_body = json.loads(event['body'])
@@ -144,25 +141,27 @@ def update_course_handler(event, context):
     print(created_date_obj)
 
     try:
+        # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+        # cursor = connection.cursor(dictionary=True)
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+                
 
-        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        cursor = connection.cursor(dictionary=True)
+                #Select all records from courses table    
+                query = ("""UPDATE courses
+                            SET courseName=%s, organization=%s, textbook=%s, active=%s, createdBy=%s, createdDate=%s
+                            WHERE courseId=%s""") 
 
-        if connection.is_connected():
-            db_info = connection.get_server_info()
-            print("Connected to MySQL Server version:", db_info)
-            
+                data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
+                cursor = db.cursor(dictionary=True)
+                cursor.execute(query, data_for_query)
+                db.commit()
+                print('COMMITTED NEW RECORD...')
+                cursor.close()
+                print('CURSOR CLOSED...')
 
-            #Select all records from courses table    
-            query = ("""UPDATE courses
-                        SET courseName=%s, organization=%s, textbook=%s, active=%s, createdBy=%s, createdDate=%s
-                        WHERE courseId=%s""") 
-
-            data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
-            cursor.execute(query, data_for_query)
-
-            # Commit data to db
-            connection.commit()
     except Error as e:
         print('Error while connecting to MySQL...', e)
     finally:
@@ -177,6 +176,7 @@ def update_course_handler(event, context):
     }
 
 
+# TODO: Do this after you update the function above.
 # function is doing a soft delete...
 def course_delete_handler(event, context):
     return{}
