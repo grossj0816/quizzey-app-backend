@@ -1,9 +1,8 @@
 import json
 import os
 import datetime
-import mysql.connector
 from mysql.connector import Error
-
+from db import DbUtils
 
 host = os.environ.get('HOST')
 db_name = os.environ.get('DATABASE_NAME')
@@ -17,25 +16,26 @@ print("Loading function")
 def courses_getter_handler(event, context):
     try:
 
-        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        cursor = connection.cursor(dictionary=True)
+        # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+        # cursor = connection.cursor(dictionary=True)
 
-        if connection.is_connected():
-            db_info = connection.get_server_info()
-            print("Connected to MySQL Server version:", db_info)
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+
+                cursor = db.cursor(dictionary=True)
             
-            #Select all course records from courses table where the active flag is set to true.    
-            query = ("SELECT * FROM courses where active = true")
-            cursor.execute(query)
-            
-            rows = cursor.fetchall()    
+                #Select all course records from courses table where the active flag is set to true.    
+                query = ("SELECT * FROM courses where active = true")
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+                # Close cursor right after we fetch all rows from courses table.
+                cursor.close()
     except Error as e:
         print('Error while connecting to MySQL...', e)
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("MySQL connection is closed.")
+
             
     return{
         "statusCode": 200,
@@ -191,8 +191,9 @@ def update_course_handler(event, context):
     }
 
 
-# def course_delete_handler(event, context):
-#     return{}
+# function is doing a soft delete...
+def course_delete_handler(event, context):
+    return{}
 
 
 
