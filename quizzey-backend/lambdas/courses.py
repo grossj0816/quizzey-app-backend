@@ -54,8 +54,6 @@ def course_getter_handler(event, context):
         }
     else: 
         try:
-            # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-            # cursor = connection.cursor(dictionary=True)
             with DbUtils(host, db_name, username, password) as db:
                 if db.is_connected():
                     db_info = db.get_server_info()
@@ -97,33 +95,34 @@ def create_new_course_handler(event, context):
 
     try:
 
-        connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        cursor = connection.cursor(dictionary=True)
+        # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+        # cursor = connection.cursor(dictionary=True)
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+                
 
-        if connection.is_connected():
-            db_info = connection.get_server_info()
-            print("Connected to MySQL Server version:", db_info)
-            
+                #Select all records from courses table    
+                query = ("INSERT INTO courses"
+                        "(courseName, organization, textbook, active, createdBy, createdDate)"
+                        "VALUES (%s, %s, %s, %s, %s, %s)") 
 
-            #Select all records from courses table    
-            query = ("INSERT INTO courses"
-                     "(courseName, organization, textbook, active, createdBy, createdDate)"
-                     "VALUES (%s, %s, %s, %s, %s, %s)") 
+                data_for_query = (course_name, organization, textbook, active, created_by, created_date)
+                
+                cursor = db.cursor(dictionary=True)
+                cursor.execute(query, data_for_query)
+                # Commit data to db
+                db.commit()
+                print('COMMITTED NEW RECORD...')
+                cursor.close()
+                print('CURSOR CLOSED...')
 
-            data_for_query = (course_name, organization, textbook, active, created_by, created_date)
-            cursor.execute(query, data_for_query)
-
-            # Commit dada to db
-            connection.commit()
     except Error as e:
         print('Error while connecting to MySQL...')
-        connection.rollback()
+        db.rollback()
         print('Rollbacked db commit due to error...', e)
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("MySQL connection is closed.")
+
             
     return{
         "statusCode": 200,
