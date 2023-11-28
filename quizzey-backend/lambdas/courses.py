@@ -16,23 +16,20 @@ print("Loading function")
 def courses_getter_handler(event, context):
     try:
 
-        # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-        # cursor = connection.cursor(dictionary=True)
-
         with DbUtils(host, db_name, username, password) as db:
             if db.is_connected():
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
-
-                cursor = db.cursor(dictionary=True)
-            
+                
                 #Select all course records from courses table where the active flag is set to true.    
                 query = ("SELECT * FROM courses where active = true")
+                cursor = db.cursor(dictionary=True)
                 cursor.execute(query)
                 rows = cursor.fetchall()
-
-                # Close cursor right after we fetch all rows from courses table.
+                print('FETCHED ALL COURSES...')
                 cursor.close()
+                print('CURSOR CLOSED...')
+
     except Error as e:
         print('Error while connecting to MySQL...', e)
 
@@ -57,24 +54,25 @@ def course_getter_handler(event, context):
         }
     else: 
         try:
-            connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
-            cursor = connection.cursor(dictionary=True)
-
-            if connection.is_connected():
-                db_info = connection.get_server_info()
-                print("Connected to MySQL Server version:", db_info)      
-                
-                #Select all course records from courses table where the active flag is set to true.    
-                query = ("SELECT * FROM courses where courseId = %(course_id)s")
-                cursor.execute(query, {'course_id': course_id})
-                row = cursor.fetchone()      
+            # connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+            # cursor = connection.cursor(dictionary=True)
+            with DbUtils(host, db_name, username, password) as db:
+                if db.is_connected():
+                    db_info = db.get_server_info()
+                    print("Connected to MySQL Server version:", db_info)      
+                    
+                    #Select all course records from courses table where the active flag is set to true.    
+                    query = ("SELECT * FROM courses where courseId = %(course_id)s")
+                    cursor = db.cursor(dictionary=True)
+                    cursor.execute(query, {'course_id': course_id})
+                    row = cursor.fetchone()
+                    print('FETCHED COURSE BY ID...')
+                    cursor.close()
+                    print('CURSOR CLOSED...')      
         except Error as e:
             print('Error while connecting to MySQL...', e)
-        finally:
-            if connection.is_connected():
-                cursor.close()
-                connection.close()
-                print("MySQL connection is closed.")
+
+
     return{
         "statusCode": 200,
         "body": json.dumps(row, indent=3, default=str)
