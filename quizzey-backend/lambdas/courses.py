@@ -142,7 +142,7 @@ def update_course_handler(event, context):
     course_name = request_body['courseName']
     organization = request_body['organization']
     textbook = request_body['textbook']
-    active = request_body['active']
+    active = True if request_body['active'] == 1 else False #ternary operator
     created_by = request_body['createdBy']
     created_date = request_body['createdDate']
     created_date_obj = datetime.datetime.strptime(created_date, '%Y-%m-%d %H:%M:%S')
@@ -153,7 +153,7 @@ def update_course_handler(event, context):
     print(textbook)
     print(active)
     print(created_by)
-    print(created_date)
+    print(created_date_obj)
 
     try:
 
@@ -167,10 +167,10 @@ def update_course_handler(event, context):
 
             #Select all records from courses table    
             query = ("UPDATE courses"
-                     "SET courseName = %s, organization = %s, textbook = %s, active = %s, createdBy = %s, createdDate = %s"
-                     "WHERE courseId = %s") 
+                     "SET courseName=%s, organization=%s, textbook=%s, active=%s, createdBy=%s, createdDate=%s"
+                     "WHERE courseId=%s") 
 
-            data_for_query = (course_name, organization, textbook, True, created_by, created_date_obj, course_id)
+            data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
             cursor.execute(query, data_for_query)
 
             # Commit data to db
