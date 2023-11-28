@@ -47,28 +47,22 @@ def course_getter_handler(event, context):
     ind_course = None
     row = None
 
-    if course_id is None:       
-        return{
-            "statusCode": 400,
-            "body": json.dumps({'ERROR': 'The course id value was not valid or empty.'})
-        }
-    else: 
-        try:
-            with DbUtils(host, db_name, username, password) as db:
-                if db.is_connected():
-                    db_info = db.get_server_info()
-                    print("Connected to MySQL Server version:", db_info)      
-                    
-                    #Select all course records from courses table where the active flag is set to true.    
-                    query = ("SELECT * FROM courses where courseId = %(course_id)s")
-                    cursor = db.cursor(dictionary=True)
-                    cursor.execute(query, {'course_id': course_id})
-                    row = cursor.fetchone()
-                    print('FETCHED COURSE BY ID...')
-                    cursor.close()
-                    print('CURSOR CLOSED...')      
-        except Error as e:
-            print('Error while connecting to MySQL...', e)
+    try:
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)      
+                
+                #Select all course records from courses table where the active flag is set to true.    
+                query = ("SELECT * FROM courses where courseId = %(course_id)s")
+                cursor = db.cursor(dictionary=True)
+                cursor.execute(query, {'course_id': course_id})
+                row = cursor.fetchone()
+                print('FETCHED COURSE BY ID...')
+                cursor.close()
+                print('CURSOR CLOSED...')      
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
 
 
     return{
@@ -102,21 +96,22 @@ def create_new_course_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
                 
+                if isinstance(course_name, str) and isinstance(organization, str) and 
+                   isinstance(textbook, str) and isinstance(active, bool) and isinstance(created_by, str)
+                    #Select all records from courses table    
+                    query = ("INSERT INTO courses"
+                            "(courseName, organization, textbook, active, createdBy, createdDate)"
+                            "VALUES (%s, %s, %s, %s, %s, %s)") 
 
-                #Select all records from courses table    
-                query = ("INSERT INTO courses"
-                        "(courseName, organization, textbook, active, createdBy, createdDate)"
-                        "VALUES (%s, %s, %s, %s, %s, %s)") 
-
-                data_for_query = (course_name, organization, textbook, active, created_by, created_date)
-                
-                cursor = db.cursor(dictionary=True)
-                cursor.execute(query, data_for_query)
-                # Commit data to db
-                db.commit()
-                print('COMMITTED NEW RECORD...')
-                cursor.close()
-                print('CURSOR CLOSED...')
+                    data_for_query = (course_name, organization, textbook, active, created_by, created_date)
+                    
+                    cursor = db.cursor(dictionary=True)
+                    cursor.execute(query, data_for_query)
+                    # Commit data to db
+                    db.commit()
+                    print('COMMITTED NEW RECORD...')
+                    cursor.close()
+                    print('CURSOR CLOSED...')
 
     except Error as e:
         print('Error while connecting to MySQL...', e)
