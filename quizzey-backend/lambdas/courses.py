@@ -16,7 +16,7 @@ print("Loading function")
 def courses_getter_handler(event, context):
     try:
 
-        with DbUtils(host, db_name, username, '1111') as db:
+        with DbUtils(host, db_name, username, password) as db:
             if db.is_connected():
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
@@ -119,10 +119,7 @@ def create_new_course_handler(event, context):
                 print('CURSOR CLOSED...')
 
     except Error as e:
-        print('Error while connecting to MySQL...')
-        db.rollback()
-        print('Rollbacked db commit due to error...', e)
-
+        print('Error while connecting to MySQL...', e)
             
     return{
         "statusCode": 200,
@@ -173,9 +170,7 @@ def update_course_handler(event, context):
             # Commit data to db
             connection.commit()
     except Error as e:
-        print('Error while connecting to MySQL...')
-        connection.rollback()
-        print('Rollbacked db commit due to error...', e)
+        print('Error while connecting to MySQL...', e)
     finally:
         if connection.is_connected():
             cursor.close()
