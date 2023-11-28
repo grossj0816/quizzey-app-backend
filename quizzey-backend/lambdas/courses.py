@@ -16,7 +16,7 @@ print("Loading function")
 def courses_getter_handler(event, context):
     try:
 
-        with DbUtils(host, db_name, username, password) as db:
+        with DbUtils(host, db_name, username, '1111') as db:
             if db.is_connected():
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
