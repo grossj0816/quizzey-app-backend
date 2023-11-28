@@ -21,7 +21,7 @@ class DbUtils:
     # db connection is created here...
     def __enter__(self):
         if self.connection == None:
-            self.connection = mysql.connector.connect(host=host, database=db_name, user=username, password=password)
+            self.connection = mysql.connector.connect(host=self.host, database=self.db_name, user=self.username, password=self.password)
             print('CONNECTION CREATED...')
             return self.connection
 
