@@ -42,7 +42,7 @@ def create_new_set_handler(event, context):
                     query = ("INSERT INTO quizzey_sets"
                              "(courseId, setName, createdBy, createdDate, lastViewedDate)"
                              "VALUES (%s, %s, %s, %s, %s)")
-                    data_for_query = (course_id, set_name, created_by, createdDate, None)
+                    data_for_query = (course_id, set_name, created_by, created_date, None)
                     cursor = db.cursor(dictionary=True)
                     cursor.execute(query, data_for_query)
                     db.commit()
