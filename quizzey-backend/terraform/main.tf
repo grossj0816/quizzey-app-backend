@@ -327,7 +327,7 @@ resource "aws_lambda_function" "create_set_lambda" {
   function_name    = "create_set"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
-  handler          = "set.create_set_handler"
+  handler          = "set.create_new_set_handler"
   runtime          = "python3.10"
   architectures    = ["arm64"]
   timeout          = 240

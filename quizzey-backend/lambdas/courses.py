@@ -103,7 +103,6 @@ def create_new_course_handler(event, context):
                     
                     cursor = db.cursor(dictionary=True)
                     cursor.execute(query, data_for_query)
-                    # Commit data to db
                     db.commit()
                     print('COMMITTED NEW RECORD...')
                     cursor.close()
