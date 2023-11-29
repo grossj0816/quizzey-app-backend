@@ -39,8 +39,6 @@ def get_sets_by_cId_handler(event, context):
     }
 
 
-def recent_sets_getter_handler(event, context):
-    return{}
 
 
 def create_new_set_handler(event, context):
