@@ -1,7 +1,7 @@
 import json
 import os
 import datetime
-import mysql.connector import Error
+from mysql.connector import Error
 from db import DbUtils
 
 host = os.environ.get('HOST')
