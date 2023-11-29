@@ -30,7 +30,11 @@ resource "aws_api_gateway_resource" "course" {
   path_part   = "{courseId}"
 }
 
-
+resource "aws_api_gateway_resource" "sets" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.root_resource_id
+  path_part   = "sets" 
+}
 
 
 # modules for all method specific endpoints I want to create -------------------------------
@@ -89,6 +93,14 @@ module "update_course" {
 
 
 
+module "create_set" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.sets
+  lambda_function = aws_lambda_function.create_set_lambda
+  authorization   = "NONE"
+  httpmethod      = "POST"
+}
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
@@ -97,7 +109,8 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_courses,
     module.get_course,
     module.create_course,
-    module.update_course
+    module.update_course,
+    module.create_set
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting
