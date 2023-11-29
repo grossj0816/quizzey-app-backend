@@ -40,16 +40,17 @@ def get_sets_by_cId_handler(event, context):
 
 
 
-
 def create_new_set_handler(event, context):
     request_body = json.loads(event['body'])
     course_id = request_body['courseId']
     set_name = request_body['setName']
+    active = request_body['active']
     created_by = request_body['createdBy']
     created_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     print(course_id)
     print(set_name)
+    print(active)
     print(created_by)
     print(created_date)
 
@@ -61,9 +62,9 @@ def create_new_set_handler(event, context):
 
                 if isinstance(set_name, str) and isinstance(created_by, str):
                     query = ("INSERT INTO quizzey_sets"
-                             "(courseId, setName, createdBy, createdDate, lastViewedDate)"
-                             "VALUES (%s, %s, %s, %s, %s)")
-                    data_for_query = (course_id, set_name, created_by, created_date, None)
+                             "(courseId, setName, active, createdBy, createdDate, lastModifiedDate)"
+                             "VALUES (%s, %s, %s, %s, %s, %s)")
+                    data_for_query = (course_id, set_name, active, created_by, created_date, created_date)
                     cursor = db.cursor(dictionary=True)
                     cursor.execute(query, data_for_query)
                     db.commit()
@@ -79,7 +80,7 @@ def create_new_set_handler(event, context):
         "body": json.dumps({'Success': 'Quizzey set creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
-# TODO: Work on this after I update code off tables.py sql statements.
+
 def set_update_handler(event, context):
     return{}
 
