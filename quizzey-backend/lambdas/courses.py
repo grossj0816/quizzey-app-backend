@@ -170,37 +170,3 @@ def update_course_handler(event, context):
 
 
 
-# function is doing a soft delete...
-def course_delete_handler(event, context):
-    request_body = json.loads(event['body'])
-    course_id = request_body['courseId']
-    active = True if request_body['active'] == 1 else False
-
-    print(course_id)
-    print(active)
-
-    try:
-        with DbUtils(host, db_name, username, password) as db:
-            if db.is_connected():
-                db_info = db.get_server_info()
-                print("Connected to MySQL Server version:", db_info)
-                
-                query = ("UPDATE courses SET active=%s WHERE courseId=%s")
-                
-                data_for_query = (active, course_id)
-                cursor = db.cursor(dictionary=True)
-                db.commit()
-                print('COMMITTED NEW RECORD...')
-                cursor.close()
-                print('CURSOR CLOSED...')
-
-    except Error as e:
-        print('Error while connecting to MySQL...', e)
-
-    return{
-        "statusCode": 200,
-        "body": json.dumps({'Success': 'Course soft deletion process has completed. Double check if your selected course was deleted.'})
-    }
-
-
-
