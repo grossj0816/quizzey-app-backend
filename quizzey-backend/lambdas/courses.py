@@ -95,10 +95,10 @@ def create_new_course_handler(event, context):
                 if isinstance(course_name, str) and isinstance(organization, str) and isinstance(textbook, str) and isinstance(active, bool) and isinstance(created_by, str):
                     #Select all records from courses table    
                     query = ("INSERT INTO courses"
-                            "(courseName, organization, textbook, active, createdBy, createdDate)"
-                            "VALUES (%s, %s, %s, %s, %s, %s)") 
+                            "(courseName, organization, textbook, active, createdBy, createdDate, lastModifiedDate)"
+                            "VALUES (%s, %s, %s, %s, %s, %s, %s)") 
 
-                    data_for_query = (course_name, organization, textbook, active, created_by, created_date)
+                    data_for_query = (course_name, organization, textbook, active, created_by, created_date, created_date)
                     
                     cursor = db.cursor(dictionary=True)
                     cursor.execute(query, data_for_query)
@@ -128,6 +128,7 @@ def update_course_handler(event, context):
     created_by = request_body['createdBy']
     created_date = request_body['createdDate']
     created_date_obj = datetime.datetime.strptime(created_date, '%Y-%m-%d %H:%M:%S')
+    last_mod_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     print(course_id)
     print(course_name)
@@ -136,6 +137,7 @@ def update_course_handler(event, context):
     print(active)
     print(created_by)
     print(created_date_obj)
+    print(last_mod_date)
 
     try:
         with DbUtils(host, db_name, username, password) as db:
@@ -146,14 +148,14 @@ def update_course_handler(event, context):
                 if isinstance(course_name, str) and isinstance(organization, str) and isinstance(textbook, str) and isinstance(textbook, str) and isinstance(active, bool) and isinstance(created_by, str):
                     #Select all records from courses table    
                     query = ("""UPDATE courses
-                                SET courseName=%s, organization=%s, textbook=%s, active=%s, createdBy=%s, createdDate=%s
+                                SET courseName=%s, organization=%s, textbook=%s, active=%s, createdBy=%s, createdDate=%s, lastModifiedDate=%s
                                 WHERE courseId=%s""") 
 
-                    data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, course_id)
+                    data_for_query = (course_name, organization, textbook, active, created_by, created_date_obj, last_mod_date, course_id)
                     cursor = db.cursor(dictionary=True)
                     cursor.execute(query, data_for_query)
                     db.commit()
-                    print('COMMITTED NEW RECORD...')
+                    print('COMMITTED EXISTING RECORD UPDATE...')
                     cursor.close()
                     print('CURSOR CLOSED...')
 

@@ -79,10 +79,8 @@ def create_new_set_handler(event, context):
         "body": json.dumps({'Success': 'Quizzey set creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
-
+# TODO: Work on this after I update code off tables.py sql statements.
 def set_update_handler(event, context):
     return{}
 
 
-def set_delete_handler(event, context):
-    return{}
