@@ -161,11 +161,7 @@ def update_course_handler(event, context):
 
     except Error as e:
         print('Error while connecting to MySQL...', e)
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-            print("MySQL connection is closed.")
+
             
     return{
         "statusCode": 200,
