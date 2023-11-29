@@ -15,7 +15,6 @@ print("Loading function")
 # Retrieve all active courses
 def courses_getter_handler(event, context):
     try:
-
         with DbUtils(host, db_name, username, password) as db:
             if db.is_connected():
                 db_info = db.get_server_info()

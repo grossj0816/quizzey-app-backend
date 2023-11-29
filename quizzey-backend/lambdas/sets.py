@@ -12,8 +12,31 @@ password = os.environ.get('PASSWORD')
 print('Loading function')
 
 
-def sets_getter_by_courseId_handler(event, context):
-    return{}
+def get_sets_by_cId_handler(event, context):
+    
+    course_id = event['queryStringParameters']['courseId']
+    
+    try:
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+
+                query = ("SELECT * FROM quizzey_sets where setId = %(course_id)s")
+                cursor = db.cursor(dictionary=True)
+                cursor.execute(query, {'course_id': course_id})
+                rows = cursor.fetchall()
+                print('FETCHED ALL COURSES...')
+                cursor.close()
+                print('CURSOR CLOSED...')
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+
+
+    return{
+        "statusCode": 200,
+        "body": json.dumps(rows, indent=3, default=str)
+    }
 
 
 def recent_sets_getter_handler(event, context):

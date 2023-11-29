@@ -305,6 +305,52 @@ resource "aws_lambda_function" "update_course_lambda" {
 
 
 
+# fetch all sets by courseId -----------------------------------------------------------------
+resource "aws_lambda_permission" "get_sets_by_cid_lambda_perm" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_sets_by_cid_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
+}
+
+resource "aws_cloudwatch_log_group" "get_sets_by_cid_lambda" {
+  name              = "/aws/lambda/${aws_lambda_function.get_sets_by_cid_lambda.function_name}"
+  retention_in_days = 30
+  skip_destroy      = false
+}
+
+resource "aws_lambda_function" "get_sets_by_cid_lambda" {
+  depends_on       = [aws_s3_object.quizzey-object]
+  s3_bucket        = "tu-api-lambda-deploys"
+  s3_key           = "quizzey_app/lambdas.zip"
+  function_name    = "get_sets_by_cid"
+  source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
+  role             = data.aws_iam_role.iam_role_for_lambda.arn
+  handler          = "sets.get_sets_by_cId_handler"
+  runtime          = "python3.10"
+  architectures    = ["arm64"]
+  timeout          = 240
+
+  vpc_config {
+    subnet_ids         = data.aws_subnets.lambda_subnets.ids
+    security_group_ids = data.aws_security_groups.lambda_sg.ids
+  }
+
+  environment {
+    variables = {
+      HOST          = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["host"]
+      DATABASE_NAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["dbname"]
+      USERNAME      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["username"]
+      PASSWORD      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["password"]
+    }
+  }
+}
+
+
+
+
+
 # create set -----------------------------------------------------------------
 resource "aws_lambda_permission" "create_set_lambda_perm" {
   statement_id  = "AllowExecutionFromAPIGateway"
@@ -346,3 +392,7 @@ resource "aws_lambda_function" "create_set_lambda" {
     }
   }
 }
+
+
+
+
