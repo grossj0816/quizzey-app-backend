@@ -145,7 +145,7 @@ def update_course_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
                 
-                if isinstance(course_name, str) and isinstance(organization, str) and isinstance(textbook, str) and isinstance(textbook, str) and isintance(active, bool) and isinstance(created_by, str):
+                if isinstance(course_name, str) and isinstance(organization, str) and isinstance(textbook, str) and isinstance(textbook, str) and isinstance(active, bool) and isinstance(created_by, str):
                     #Select all records from courses table    
                     query = ("""UPDATE courses
                                 SET courseName=%s, organization=%s, textbook=%s, active=%s, createdBy=%s, createdDate=%s
