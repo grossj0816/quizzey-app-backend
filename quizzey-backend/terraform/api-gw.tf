@@ -158,7 +158,7 @@ module "create_questions" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
   resource        = aws_api_gateway_resource.questions
-  lambda_function = aws_lambda_function.get_questions_by_sid_lambda
+  lambda_function = aws_lambda_function.create_questions_lambda
   authorization   = "NONE"
   httpmethod      = "POST" 
 }
