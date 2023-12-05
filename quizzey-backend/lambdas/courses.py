@@ -20,8 +20,8 @@ def courses_getter_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
                 
-                #Select all course records from courses table where the active flag is set to true.    
-                query = ("SELECT * FROM courses where active = true")
+                #Select all course records from courses table WHERE the active flag is set to true.    
+                query = ("SELECT * FROM courses WHERE active = true")
                 cursor = db.cursor(dictionary=True)
                 cursor.execute(query)
                 rows = cursor.fetchall()
@@ -52,8 +52,8 @@ def course_getter_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)      
                 
-                #Select all course records from courses table where the active flag is set to true.    
-                query = ("SELECT * FROM courses where courseId = %(course_id)s")
+                #Select all course records from courses table WHERE the active flag is set to true.    
+                query = ("SELECT * FROM courses WHERE courseId = %(course_id)s")
                 cursor = db.cursor(dictionary=True)
                 cursor.execute(query, {'course_id': course_id})
                 row = cursor.fetchone()

@@ -22,11 +22,11 @@ def get_sets_by_cId_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
 
-                query = ("SELECT * FROM quizzey_sets where courseId = %(course_id)s")
+                query = ("SELECT * FROM quizzey_sets WHERE courseId = %(course_id)s")
                 cursor = db.cursor(dictionary=True)
                 cursor.execute(query, {'course_id': course_id})
                 rows = cursor.fetchall()
-                print('FETCHED ALL COURSES...')
+                print('FETCHED ALL SETS BY COURSE ID...')
                 cursor.close()
                 print('CURSOR CLOSED...')
     except Error as e:
