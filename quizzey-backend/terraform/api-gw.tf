@@ -36,6 +36,12 @@ resource "aws_api_gateway_resource" "sets" {
   path_part   = "sets" 
 }
 
+resource "aws_api_gateway_resource" "sets_by_courseId" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  parent_id   = aws_api_gateway_resource.sets.id
+  path_part   = "{courseId}" 
+}
+
 
 # modules for all method specific endpoints I want to create -------------------------------
 module "create_tables" {
@@ -96,7 +102,7 @@ module "update_course" {
 module "get_sets_by_cid" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.sets
+  resource        = aws_api_gateway_resource.sets_by_courseId
   lambda_function = aws_lambda_function.get_sets_by_cid_lambda
   authorization   = "NONE"
   httpmethod      = "GET"
@@ -113,6 +119,20 @@ module "create_set" {
   httpmethod      = "POST"
 }
 
+
+
+module "update_set" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.sets
+  lambda_function = aws_lambda_function.update_set_lambda
+  authorization   = "NONE"
+  httpmethod      = "PUT"  
+}
+
+
+
+
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
@@ -123,7 +143,8 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.create_course,
     module.update_course,
     module.get_sets_by_cid,
-    module.create_set
+    module.create_set,
+    module.update_set
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting

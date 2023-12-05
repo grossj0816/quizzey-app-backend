@@ -14,7 +14,7 @@ print('Loading function')
 
 def get_sets_by_cId_handler(event, context):
     
-    course_id = event['queryStringParameters']['courseId']
+    course_id = event['pathParameters']['courseId']
     
     try:
         with DbUtils(host, db_name, username, password) as db:
@@ -81,7 +81,7 @@ def create_new_set_handler(event, context):
     }
 
 
-def set_update_handler(event, context):
+def update_set_handler(event, context):
     request_body = json.loads(event['body'])
     set_id = request_body['setId']
     set_name = request_body['setName']
