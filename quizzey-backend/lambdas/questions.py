@@ -63,7 +63,7 @@ def create_new_questions_handler(event, context):
                     print(created_date)
                     
 
-                    data_for_query = (item['setId'], item['question'], item['answer'], item['createdBy'], createdDate, createdDate)
+                    data_for_query = (item['setId'], item['question'], item['answer'], item['createdBy'], created_date, created_date)
                     cursor.execute(query, data_for_query)
 
                 db.commit()
