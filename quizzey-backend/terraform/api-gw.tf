@@ -163,7 +163,7 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_sets_by_cid,
     module.create_set,
     module.update_set,
-    module.module.get_questions_by_sId
+    module.get_questions_by_sId
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting
