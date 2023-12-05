@@ -55,7 +55,7 @@ def create_new_questions_handler(event, context):
                 cursor = db.cursor(dictionary=True)
 
                 # LOOP THROUGH DATA
-                for item in response_body:
+                for item in request_body:
                     print(item['setId'])
                     print(item['question'])
                     print(item['answer'])
