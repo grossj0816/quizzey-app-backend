@@ -36,7 +36,7 @@ def get_questions_by_sId_handler(event, context):
         "body": json.dumps(rows, indent=3, default=str)
     }
 
-def create_new_question_handler(event, context):
+def create_new_questions_handler(event, context):
     # LOAD JSON LIST INTO PYTHON DICT
     request_body = json.loads(event['body'])
     created_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

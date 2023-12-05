@@ -54,7 +54,7 @@ resource "aws_api_gateway_resource" "questions_by_set_id" {
   path_part   = "{setId}" 
 }
 
-# modules for all method specific endpoints I want to create -------------------------------
+# MODULES for all method specific endpoints I want to create -------------------------------
 module "create_tables" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
@@ -151,6 +151,18 @@ module "get_questions_by_sId" {
   authorization   = "NONE"
   httpmethod      = "GET" 
 }
+
+
+
+module "create_questions" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.questions
+  lambda_function = aws_lambda_function.get_questions_by_sid_lambda
+  authorization   = "NONE"
+  httpmethod      = "POST" 
+}
+
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
