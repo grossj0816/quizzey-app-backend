@@ -22,7 +22,7 @@ def get_sets_by_cId_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
 
-                query = ("SELECT * FROM quizzey_sets where setId = %(course_id)s")
+                query = ("SELECT * FROM quizzey_sets where courseId = %(course_id)s")
                 cursor = db.cursor(dictionary=True)
                 cursor.execute(query, {'course_id': course_id})
                 rows = cursor.fetchall()
