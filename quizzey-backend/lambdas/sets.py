@@ -121,7 +121,7 @@ def update_set_handler(event, context):
 
     return{
         "statusCode": 200,
-        "body": json.dumps({'Success', 'Set update process has completed. Double check if your new set record was added correctly.'}, indent=3)
+        "body": json.dumps({'Success': 'Set update process has completed. Double check if your new set record was added correctly.'}, indent=3)
     }
 
 
