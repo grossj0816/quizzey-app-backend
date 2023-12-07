@@ -93,7 +93,6 @@ def update_set_handler(event, context):
     print(set_name)
     print(active)
     print(created_by)
-    print(created_date_obj)
     print(last_mod_date)
 
     try:

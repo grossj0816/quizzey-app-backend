@@ -134,7 +134,6 @@ def update_course_handler(event, context):
     print(textbook)
     print(active)
     print(created_by)
-    print(created_date_obj)
     print(last_mod_date)
 
     try:
