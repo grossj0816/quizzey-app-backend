@@ -79,8 +79,38 @@ def create_new_questions_handler(event, context):
         "body": json.dumps({'Success': 'Question creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
-def question_update_handler(event, context):
-    return{}
+def update_questions_handler(event, context):
+    request_body = json.loads(event['body'])
+    last_mod_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    try:
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+               db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+                
+                query = ("""UPDATE questions
+                            SET question=%s, answer=%s, createdBy=%s, lastModifiedDate=%s
+                            WHERE questionId=%s""")
+                
+                cursor = db.cursor(dictionary=True)
+
+                for item in request_body:
+                    data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date)
+                    cursor.execute(query, data_for_query)
+
+                db.commit()
+                print('COMMITTED NEW RECORD...')
+                cursor.close()
+                print('CURSOR CLOSED...')
+
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+    
+    return{
+        "statusCode": 200,
+        "body" json.dumps({'Success': 'Question update process has completed. Double check if your new question records were added correctly.'})
+    }
 
 
 def question_delete_handler(event, context):

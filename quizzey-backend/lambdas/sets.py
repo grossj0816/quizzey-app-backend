@@ -87,8 +87,6 @@ def update_set_handler(event, context):
     set_name = request_body['setName']
     active = True if request_body['active'] == 1 else False
     created_by = request_body['createdBy']
-    created_date = request_body['createdDate']
-    created_date_obj = datetime.datetime.strptime(created_date, '%Y-%m-%d %H:%M:%S')
     last_mod_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     print(set_id)
@@ -106,10 +104,10 @@ def update_set_handler(event, context):
 
                 if isinstance(set_name, str) and isinstance(active, bool) and isinstance(created_by, str):
                     query = ("""UPDATE quizzey_sets
-                                SET setName=%s, active=%s, createdBy=%s, createdDate=%s, lastModifiedDate=%s
+                                SET setName=%s, active=%s, createdBy=%s, lastModifiedDate=%s
                                 WHERE setId=%s""")
 
-                    data_for_query = (set_name, active, created_by, created_date_obj, last_mod_date, set_id)
+                    data_for_query = (set_name, active, created_by, last_mod_date, set_id)
                     cursor = db.cursor(dictionary=True)
                     cursor.execute(query, data_for_query)
                     db.commit()
