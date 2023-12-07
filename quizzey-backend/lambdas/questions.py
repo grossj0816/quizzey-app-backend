@@ -97,7 +97,7 @@ def update_questions_handler(event, context):
 
                for item in request_body:
                     if isinstance(item['question'], str) and isinstance(item['answer'], str) and isinstance(item['createdBy'], str):
-                        data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date)
+                        data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date, item['questionId'])
                         cursor.execute(query, data_for_query)
 
                db.commit()
