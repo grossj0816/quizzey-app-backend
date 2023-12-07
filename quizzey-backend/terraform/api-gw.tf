@@ -163,6 +163,17 @@ module "create_questions" {
   httpmethod      = "POST" 
 }
 
+
+
+module "update_questions" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.questions
+  lambda_function = aws_lambda_function.update_questions_lambda
+  authorization   = "NONE"
+  httpmethod      = "PUT" 
+}
+
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
@@ -175,7 +186,9 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_sets_by_cid,
     module.create_set,
     module.update_set,
-    module.get_questions_by_sId
+    module.get_questions_by_sId,
+    module.create_questions,
+    module.update_questions
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting

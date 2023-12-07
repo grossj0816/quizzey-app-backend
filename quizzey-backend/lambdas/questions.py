@@ -96,8 +96,9 @@ def update_questions_handler(event, context):
                 cursor = db.cursor(dictionary=True)
 
                 for item in request_body:
-                    data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date)
-                    cursor.execute(query, data_for_query)
+                    if isinstance(item['question'], str) and isinstance(item['answer'], str) and isinstance(item['createdBy'], str):
+                        data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date)
+                        cursor.execute(query, data_for_query)
 
                 db.commit()
                 print('COMMITTED NEW RECORD...')
@@ -109,7 +110,7 @@ def update_questions_handler(event, context):
     
     return{
         "statusCode": 200,
-        "body" json.dumps({'Success': 'Question update process has completed. Double check if your new question records were added correctly.'})
+        "body" json.dumps({'Success': 'Batch question update process has completed. Double check if your new question records were added correctly.'})
     }
 
 
