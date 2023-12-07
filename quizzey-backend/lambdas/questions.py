@@ -55,14 +55,8 @@ def create_new_questions_handler(event, context):
                 cursor = db.cursor(dictionary=True)
 
                 # LOOP THROUGH DATA
-                for item in request_body:
-                    print(item['setId'])
-                    print(item['question'])
-                    print(item['answer'])
-                    print(item['createdBy'])
-                    print(created_date)
-                    
-
+                for item in request_body:                    
+                    if isinstance(setId, int) and isinstance(item['question'], str) and isinstance(item['answer'], str) and isinstance(item['createdBy'], str):
                     data_for_query = (item['setId'], item['question'], item['answer'], item['createdBy'], created_date, created_date)
                     cursor.execute(query, data_for_query)
 
@@ -99,7 +93,7 @@ def update_questions_handler(event, context):
                     if isinstance(item['question'], str) and isinstance(item['answer'], str) and isinstance(item['createdBy'], str):
                         data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date, item['questionId'])
                         cursor.execute(query, data_for_query)
-
+                
                db.commit()
                print('COMMITTED NEW RECORD...')
                cursor.close()
