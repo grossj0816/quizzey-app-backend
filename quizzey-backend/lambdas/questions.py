@@ -87,23 +87,23 @@ def update_questions_handler(event, context):
         with DbUtils(host, db_name, username, password) as db:
             if db.is_connected():
                db_info = db.get_server_info()
-                print("Connected to MySQL Server version:", db_info)
+               print("Connected to MySQL Server version:", db_info)
                 
-                query = ("""UPDATE questions
-                            SET question=%s, answer=%s, createdBy=%s, lastModifiedDate=%s
-                            WHERE questionId=%s""")
+               query = ("""UPDATE questions
+                           SET question=%s, answer=%s, createdBy=%s, lastModifiedDate=%s
+                           WHERE questionId=%s""")
                 
-                cursor = db.cursor(dictionary=True)
+               cursor = db.cursor(dictionary=True)
 
-                for item in request_body:
+               for item in request_body:
                     if isinstance(item['question'], str) and isinstance(item['answer'], str) and isinstance(item['createdBy'], str):
                         data_for_query = (item['question'], item['answer'], item['createdBy'], last_mod_date)
                         cursor.execute(query, data_for_query)
 
-                db.commit()
-                print('COMMITTED NEW RECORD...')
-                cursor.close()
-                print('CURSOR CLOSED...')
+               db.commit()
+               print('COMMITTED NEW RECORD...')
+               cursor.close()
+               print('CURSOR CLOSED...')
 
     except Error as e:
         print('Error while connecting to MySQL...', e)
