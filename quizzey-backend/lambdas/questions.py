@@ -110,7 +110,7 @@ def update_questions_handler(event, context):
     
     return{
         "statusCode": 200,
-        "body" json.dumps({'Success': 'Batch question update process has completed. Double check if your new question records were added correctly.'})
+        "body": json.dumps({'Success': 'Batch question update process has completed. Double check if your new question records were added correctly.'}, indent=3)
     }
 
 
