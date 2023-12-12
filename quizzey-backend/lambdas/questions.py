@@ -117,7 +117,7 @@ def delete_questions_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
 
-                query("DELETE FROM questions WHERE questionId=%s")
+                query = ("DELETE FROM questions WHERE questionId=%s")
 
                 cursor = db.cursor(dictionary=True)
 
