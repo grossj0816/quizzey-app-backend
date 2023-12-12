@@ -57,8 +57,8 @@ def create_new_questions_handler(event, context):
                 # LOOP THROUGH DATA
                 for item in request_body:                    
                     if isinstance(setId, int) and isinstance(item['question'], str) and isinstance(item['answer'], str) and isinstance(item['createdBy'], str):
-                    data_for_query = (item['setId'], item['question'], item['answer'], item['createdBy'], created_date, created_date)
-                    cursor.execute(query, data_for_query)
+                        data_for_query = (item['setId'], item['question'], item['answer'], item['createdBy'], created_date, created_date)
+                        cursor.execute(query, data_for_query)
 
                 db.commit()
                 print('COMMITTED NEW RECORD...')
