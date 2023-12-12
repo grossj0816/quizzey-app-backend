@@ -60,7 +60,7 @@ def create_new_set_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
 
-                if isinstance(course_id, int),  isinstance(set_name, str) and isinstance(active, bool) and isinstance(created_by, str):
+                if isinstance(course_id, int) and isinstance(set_name, str) and isinstance(active, bool) and isinstance(created_by, str):
                     query = ("INSERT INTO quizzey_sets"
                              "(courseId, setName, active, createdBy, createdDate, lastModifiedDate)"
                              "VALUES (%s, %s, %s, %s, %s, %s)")
