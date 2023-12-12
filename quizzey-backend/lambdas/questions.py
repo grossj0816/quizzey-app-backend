@@ -119,7 +119,7 @@ def delete_questions_handler(event, context):
 
                 query = ("DELETE FROM questions WHERE questionId=%s")
 
-                cursor = db.cursor(dictionary=True)
+                cursor = db.cursor()
 
                 for item in request_body:
                     data_for_query = item['questionId']
