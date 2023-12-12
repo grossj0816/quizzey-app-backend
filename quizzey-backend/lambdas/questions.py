@@ -104,9 +104,36 @@ def update_questions_handler(event, context):
     
     return{
         "statusCode": 200,
-        "body": json.dumps({'Success': 'Batch question update process has completed. Double check if your new question records were added correctly.'}, indent=3)
+        "body": json.dumps({'Success': 'Batch question update process has completed. Double check if your new question records were updated correctly.'}, indent=3)
     }
 
 
-def question_delete_handler(event, context):
-    return{}
+def delete_questions_handler(event, context):
+    request_body = json.loads(event['body'])
+
+    try:
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+
+                query("DELETE FROM questions WHERE questionId=%s")
+
+                cursor = db.cursor(dictionary=True)
+
+                for item in request_body:
+                    data_for_query = item['questionId']
+                    print(data_for_query)
+                    cursor.execute(query, data_for_query)
+
+                db.commit()
+                print('COMMITTED NEW RECORD...')
+                cursor.close()
+                print('CURSOR CLOSED...')
+
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+    return{
+        "statusCode": 200,
+        "body": json.dumps({'Success': 'Batch question delete process has completed.'}, indent=3)
+    }

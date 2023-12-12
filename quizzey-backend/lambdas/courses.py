@@ -162,7 +162,7 @@ def update_course_handler(event, context):
             
     return{
         "statusCode": 200,
-        "body": json.dumps({'Success': 'Course update process has completed. Double check if your new course record was added correctly.'}, indent=3)
+        "body": json.dumps({'Success': 'Course update process has completed.'}, indent=3)
     }
 
 
