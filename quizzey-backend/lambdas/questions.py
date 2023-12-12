@@ -122,7 +122,7 @@ def delete_questions_handler(event, context):
                 cursor = db.cursor()
 
                 for item in request_body:
-                    data_for_query = item['questionId']
+                    data_for_query = (item['questionId'], )
                     print(data_for_query)
                     cursor.execute(query, data_for_query)
 
