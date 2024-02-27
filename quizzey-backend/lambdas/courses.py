@@ -35,6 +35,9 @@ def courses_getter_handler(event, context):
             
     return{
         "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        }
         "body": json.dumps(rows, indent=3, default=str)
     }
 
