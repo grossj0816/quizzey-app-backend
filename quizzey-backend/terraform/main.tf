@@ -101,7 +101,7 @@ resource "aws_lambda_function" "create_tables_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/create_quizzeydb_tables"
+  function_name    = "quizzey-create_quizzey-db_tables"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "tables.all_tables_create_handler"
@@ -145,7 +145,7 @@ resource "aws_lambda_function" "courses_get_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/courses/fetch_all_courses"
+  function_name    = "quizzey-courses-fetch_all_courses"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.courses_getter_handler"
@@ -189,7 +189,7 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/courses/fetch_course"
+  function_name    = "quizzey-courses-fetch_course"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.course_getter_handler"
@@ -234,7 +234,7 @@ resource "aws_lambda_function" "create_course_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/courses/create_course"
+  function_name    = "quizzey-courses-create_course"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.create_new_course_handler"
@@ -279,7 +279,7 @@ resource "aws_lambda_function" "update_course_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/courses/update_course"
+  function_name    = "quizzey-courses-update_course"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.update_course_handler"
@@ -324,7 +324,7 @@ resource "aws_lambda_function" "get_sets_by_cid_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/sets/get_sets_by_cid"
+  function_name    = "quizzey-sets-get_sets_by_cid"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.get_sets_by_cId_handler"
@@ -369,7 +369,7 @@ resource "aws_lambda_function" "create_set_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/sets/create_set"
+  function_name    = "quizzey-sets-create_set"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.create_new_set_handler"
@@ -414,7 +414,7 @@ resource "aws_lambda_function" "update_set_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/sets/update_set"
+  function_name    = "quizzey-sets-update_set"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.update_set_handler"
@@ -459,7 +459,7 @@ resource "aws_lambda_function" "get_questions_by_sid_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/questions/get_questions_by_sid"
+  function_name    = "quizzey-questions-get_questions_by_sid"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.get_questions_by_sId_handler"
@@ -504,7 +504,7 @@ resource "aws_lambda_function" "create_questions_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/questions/create_questions"
+  function_name    = "quizzey-questions-create_questions"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.create_new_questions_handler"
@@ -549,7 +549,7 @@ resource "aws_lambda_function" "update_questions_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/questions/update_questions"
+  function_name    = "quizzey-questions-update_questions"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.update_questions_handler"
@@ -594,7 +594,7 @@ resource "aws_lambda_function" "delete_questions_lambda" {
   depends_on       = [aws_s3_object.quizzey-object]
   s3_bucket        = "tu-api-lambda-deploys"
   s3_key           = "quizzey_app/lambdas.zip"
-  function_name    = "/quizzey/questions/delete_questions"
+  function_name    = "quizzey-questions-delete_questions"
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.delete_questions_handler"
