@@ -9,6 +9,11 @@ db_name = os.environ.get('DATABASE_NAME')
 username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
 
+response_headers = {
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT",
+}
 
 print("Loading function")
 
@@ -35,11 +40,7 @@ def courses_getter_handler(event, context):
             
     return{
         "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,GET,POST",
-        },
+        "headers": response_headers,
         "body": json.dumps(rows, indent=3, default=str)
     }
 
@@ -71,6 +72,7 @@ def course_getter_handler(event, context):
 
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps(row, indent=3, default=str)
     }
 
@@ -117,6 +119,7 @@ def create_new_course_handler(event, context):
             
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Course creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
@@ -167,6 +170,7 @@ def update_course_handler(event, context):
             
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Course update process has completed.'}, indent=3)
     }
 

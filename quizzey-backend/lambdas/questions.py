@@ -9,6 +9,12 @@ db_name = os.environ.get('DATABASE_NAME')
 username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
 
+response_headers = {
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
+}
+
 print('Loading function')
 
 
@@ -33,6 +39,7 @@ def get_questions_by_sId_handler(event, context):
 
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps(rows, indent=3, default=str)
     }
 
@@ -70,6 +77,7 @@ def create_new_questions_handler(event, context):
 
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Question creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
@@ -104,6 +112,7 @@ def update_questions_handler(event, context):
     
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Batch question update process has completed. Double check if your new question records were updated correctly.'}, indent=3)
     }
 
@@ -135,5 +144,6 @@ def delete_questions_handler(event, context):
         print('Error while connecting to MySQL...', e)
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Batch question delete process has completed.'}, indent=3)
     }

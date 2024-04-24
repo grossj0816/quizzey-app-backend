@@ -9,6 +9,12 @@ db_name = os.environ.get('DATABASE_NAME')
 username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
 
+response_headers = {
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT",
+}
+
 print('Loading function')
 
 
@@ -35,6 +41,7 @@ def get_sets_by_cId_handler(event, context):
 
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps(rows, indent=3, default=str)
     }
 
@@ -77,6 +84,7 @@ def create_new_set_handler(event, context):
 
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Quizzey set creation process has completed. Double check if your new quizzey set record was added correctly.'}, indent=3)
     }
 
@@ -118,6 +126,7 @@ def update_set_handler(event, context):
 
     return{
         "statusCode": 200,
+        "headers": response_headers,
         "body": json.dumps({'Success': 'Set update process has completed.'}, indent=3)
     }
 
