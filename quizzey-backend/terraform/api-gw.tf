@@ -120,7 +120,7 @@ module "create_course" {
 module "update_course" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.courses
+  resource        = aws_api_gateway_resource.course
   lambda_function = aws_lambda_function.update_course_lambda
   authorization   = "NONE"
   httpmethod      = "PUT"
