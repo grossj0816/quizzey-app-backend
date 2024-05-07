@@ -12,7 +12,7 @@ password = os.environ.get('PASSWORD')
 response_headers = {
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT",
+    "Access-Control-Allow-Methods": "GET,POST,PUT",
 }
 
 print("Loading function")
