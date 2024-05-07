@@ -7,8 +7,26 @@ resource "aws_api_gateway_rest_api" "quizzey-api-gateway" {
   }
 }
 
+# create a JSON iam policy document w/ data source
+data "aws_iam_policy_document" "gateway-policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["execute-api:Invoke"]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    resources = [
+      "execute-api:/*"
+    ]
+  }
+}
 
-
+# set the json form data.aws_iam_policy_document.gateway-policy into policy
+resource "aws_api_gateway_rest_api_policy" "policy" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  policy      = data.aws_iam_policy_document.gateway-policy.json    
+}
 
 
 # setting all endpoint resources ------------------------------------------------------------
