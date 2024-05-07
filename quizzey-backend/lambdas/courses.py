@@ -136,8 +136,6 @@ def update_course_handler(event, context):
     if method === "OPTIONS":
         return{
             "statusCode": 200,
-            "headers": response_headers,
-            "body": json.dumps({'Success': 'Course update process has completed.'}, indent=3)
         }
 
     request_body = json.loads(event['body'])
