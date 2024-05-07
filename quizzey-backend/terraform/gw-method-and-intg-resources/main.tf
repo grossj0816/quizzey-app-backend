@@ -13,12 +13,12 @@ resource "aws_api_gateway_method_response" "response" {
   http_method   = var.httpmethod
   status_code  =  200
   #response parameters is essentially a list of response headers that can be read from backend response
-  # response_parameters = {
-  #   "method.response.header.Access-Control-Allow-Headers" = true,
-  #   "method.response.header.Access-Control-Allow-Methods" = true,
-  #   "method.response.header.Access-Control-Allow-Origin" = true,
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin" = true,
 
-  # }
+  }
   response_models = {
     "application/json" = "Empty"
   }
@@ -44,11 +44,11 @@ resource "aws_api_gateway_integration_response" "intgresponse" {
   response_templates = {
     "application/json" = ""
   }
-  # response_parameters = {
-  #   "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-  #   "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
-  #   "method.response.header.Access-Control-Allow-Origin" = "'*'"
-  # }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
 }
 
 
