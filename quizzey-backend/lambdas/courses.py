@@ -130,14 +130,6 @@ def create_new_course_handler(event, context):
 
 #Update a pre-existing course record by courseId
 def update_course_handler(event, context):
-
-    method = event.get('httpMethod')
-
-    if method === "OPTIONS":
-        return{
-            "statusCode": 200,
-        }
-
     request_body = json.loads(event['body'])
     course_id = request_body['courseId']
     course_name = request_body['courseName']
