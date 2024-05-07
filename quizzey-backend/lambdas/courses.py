@@ -170,8 +170,12 @@ def update_course_handler(event, context):
             
     return{
         "statusCode": 200,
-        "headers": response_headers
-        # "body": json.dumps({'Success': 'Course update process has completed.'}, indent=3)
+        "headers": {
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "PUT,OPTIONS"
+        },
+        "body": json.dumps({'Success': 'Course update process has completed.'}, indent=3)
     }
 
 
