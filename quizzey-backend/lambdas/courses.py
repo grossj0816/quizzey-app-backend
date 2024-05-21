@@ -12,7 +12,7 @@ password = os.environ.get('PASSWORD')
 response_headers = {
     "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,PUT,GET,POST",
 }
 
 print("Loading function")
@@ -124,6 +124,12 @@ def create_new_course_handler(event, context):
     }
 
 
+def options_handler(event, context):
+    return{
+        "statusCode": 200,
+        "headers": response_headers,
+        "body": json.dumps({'Success': 'OPTIONS method was successful.'}, indent=3)
+    }
 
 #Update a pre-existing course record by courseId
 def update_course_handler(event, context):

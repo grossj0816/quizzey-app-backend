@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "gateway-policy" {
   }
 }
 
-# set the json form data.aws_iam_policy_document.gateway-policy into policy
+# set the json form data.aws_iam_policy_document.gateway-policy into
 resource "aws_api_gateway_rest_api_policy" "policy" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
   policy      = data.aws_iam_policy_document.gateway-policy.json    
@@ -95,7 +95,7 @@ module "get_courses" {
 
 
 
-module "get_course" {
+module "get_course" { //TODO: CHECK THIS TOMORROW
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
   resource        = aws_api_gateway_resource.course
@@ -106,7 +106,7 @@ module "get_course" {
 
 
 
-module "create_course" {
+module "create_course" { //TODO: CHECK THIS TOMORROW
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
   resource        = aws_api_gateway_resource.courses
@@ -120,10 +120,21 @@ module "create_course" {
 module "update_course" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.course
+  resource        = aws_api_gateway_resource.courses
   lambda_function = aws_lambda_function.update_course_lambda
   authorization   = "NONE"
   httpmethod      = "PUT"
+}
+
+
+
+module "cors_update_course" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.courses
+  lambda_function = aws_lambda_function.cors_course_lambda
+  authorization   = "NONE"
+  httpmethod      = "OPTIONS"  
 }
 
 
@@ -212,6 +223,7 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_course,
     module.create_course,
     module.update_course,
+    module.cors_update_course,
     module.get_sets_by_cid,
     module.create_set,
     module.update_set,
