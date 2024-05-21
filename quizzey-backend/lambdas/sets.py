@@ -88,6 +88,12 @@ def create_new_set_handler(event, context):
         "body": json.dumps({'Success': 'Quizzey set creation process has completed. Double check if your new quizzey set record was added correctly.'}, indent=3)
     }
 
+def options_handler(event, context):
+    return{
+        "statusCode": 200,
+        "headers": response_headers,
+        "body": json.dumps({'Success': 'OPTIONS method was successful.'}, indent=3)
+    }
 
 def update_set_handler(event, context):
     request_body = json.loads(event['body'])

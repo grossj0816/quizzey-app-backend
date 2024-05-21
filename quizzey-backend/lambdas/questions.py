@@ -81,6 +81,13 @@ def create_new_questions_handler(event, context):
         "body": json.dumps({'Success': 'Question creation process has completed. Double check if your new course record was added correctly.'}, indent=3)
     }
 
+def options_handler(event, context):
+    return{
+        "statusCode": 200,
+        "headers": response_headers,
+        "body": json.dumps({'Success': 'OPTIONS method was successful.'}, indent=3)
+    }
+
 def update_questions_handler(event, context):
     request_body = json.loads(event['body'])
     last_mod_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
