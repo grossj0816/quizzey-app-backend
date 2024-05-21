@@ -120,7 +120,7 @@ module "create_course" { //TODO: CHECK THIS TOMORROW
 module "update_course" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.course
+  resource        = aws_api_gateway_resource.courses
   lambda_function = aws_lambda_function.update_course_lambda
   authorization   = "NONE"
   httpmethod      = "PUT"
@@ -131,7 +131,7 @@ module "update_course" {
 module "cors_update_course" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.course
+  resource        = aws_api_gateway_resource.courses
   lambda_function = aws_lambda_function.cors_course_lambda
   authorization   = "NONE"
   httpmethod      = "OPTIONS"  

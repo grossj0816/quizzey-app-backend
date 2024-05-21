@@ -133,8 +133,8 @@ def options_handler(event, context):
 
 #Update a pre-existing course record by courseId
 def update_course_handler(event, context):
-    course_id = event['pathParameters']['courseId']
     request_body = json.loads(event['body'])
+    course_id = request_body['courseId']
     course_name = request_body['courseName']
     organization = request_body['organization']
     textbook = request_body['textbook']
