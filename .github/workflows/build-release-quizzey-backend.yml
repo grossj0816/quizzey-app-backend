@@ -9,7 +9,7 @@ jobs:
       steps:
         # Checkout repo
         - name: Git Checkout
-          uses: actions/checkout@v4S
+          uses: actions/checkout@v4
 
         # Setup Python
         - name: Setup Python
