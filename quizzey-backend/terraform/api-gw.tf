@@ -172,6 +172,18 @@ module "update_set" {
 
 
 
+module "cors_update_set" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.sets
+  lambda_function = aws_lambda_function.cors_set_lambda
+  authorization   = "NONE"
+  httpmethod      = "OPTIONS"  
+}
+
+
+
+
 module "get_questions_by_sId" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
@@ -227,6 +239,7 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_sets_by_cid,
     module.create_set,
     module.update_set,
+    module.cors_update_set,
     module.get_questions_by_sId,
     module.create_questions,
     module.update_questions,
