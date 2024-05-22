@@ -74,7 +74,7 @@ resource "aws_api_gateway_resource" "course_path" {
 
 resource "aws_api_gateway_resource" "sets_by_courseId" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-  parent_id   = aws_api_gateway_resource.course_path
+  parent_id   = aws_api_gateway_resource.course_path.id
   path_part   = "{courseId}" 
 }
 
