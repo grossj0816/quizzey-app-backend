@@ -47,6 +47,37 @@ def get_sets_by_cId_handler(event, context):
 
 
 
+
+def set_getter_handler(event, context):
+    set_id = event['pathParameters']['setId']
+    ind_set = None
+    row = None
+
+    try:
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)  
+
+                query = ("SELECT * FROM sets WHERE setId = %(set_id)s")
+                cursor = db.cursor(dictionary=True)
+                cursor.execute(query, {'set_id': set_id})
+                row = cursor.fetchone()
+                print('FETCHED SET BY ID...')
+                cursor.close()
+                print('CURSOR CLOSED...')
+    except Error as e:
+        print('Error while connecting to MYSQL...', e)
+
+    return{
+        "statusCode": 200,
+        "headers": response_headers,
+        "body": json.dumps(row, indent=3, default=str)
+    }
+
+
+
+
 def create_new_set_handler(event, context):
     request_body = json.loads(event['body'])
     course_id = request_body['courseId']
