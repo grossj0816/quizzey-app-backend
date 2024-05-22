@@ -54,15 +54,21 @@ resource "aws_api_gateway_resource" "sets" {
   path_part   = "sets" 
 }
 
-resource "aws_api_gateway_resource" "sets_by_courseId" {
+resource "aws_api_gateway_resource" "api" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
   parent_id   = aws_api_gateway_resource.sets.id
+  path_part   = "api" 
+}
+
+resource "aws_api_gateway_resource" "sets_by_courseId" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  parent_id   = aws_api_gateway_resource.api.id
   path_part   = "{courseId}" 
 }
 
 resource "aws_api_gateway_resource" "set" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-  parent_id   = aws_api_gateway_resource.sets.id
+  parent_id   = aws_api_gateway_resource.api.id
   path_part   = "{setId}"
 }
 
