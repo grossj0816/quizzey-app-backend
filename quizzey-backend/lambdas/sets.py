@@ -59,7 +59,7 @@ def set_getter_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)  
 
-                query = ("SELECT * FROM sets WHERE setId = %(set_id)s")
+                query = ("SELECT * FROM quizzey_sets WHERE setId = %(set_id)s")
                 cursor = db.cursor(dictionary=True)
                 cursor.execute(query, {'set_id': set_id})
                 row = cursor.fetchone()
