@@ -171,6 +171,17 @@ module "get_sets_by_cid" {
 
 
 
+module "cors_sets_get_by_cid" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.sets_by_courseId
+  lambda_function = aws_lambda_function.cors_set_lambda
+  authorization   = "NONE"
+  httpmethod      = "OPTIONS"  
+}
+
+
+
 module "get_set" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
@@ -178,6 +189,17 @@ module "get_set" {
   lambda_function = aws_lambda_function.ind_set_get_lambda
   authorization   = "NONE"
   httpmethod      = "GET"
+}
+
+
+
+module "cors_set_get_by_id" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.set_by_setId
+  lambda_function = aws_lambda_function.cors_set_lambda
+  authorization   = "NONE"
+  httpmethod      = "OPTIONS"  
 }
 
 
