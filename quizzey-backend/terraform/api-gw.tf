@@ -58,18 +58,11 @@ resource "aws_api_gateway_resource" "sets" {
 }
 
 
-resource "aws_api_gateway_resource" "id" {
-  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-  parent_id   = aws_api_gateway_resource.sets.id
-  path_part   = "{id}"
-}
-
-
-resource "aws_api_gateway_resource" "sets_by_courseId" {
-  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-  parent_id   = aws_api_gateway_resource.id.id
-  path_part   = "course" 
-}
+# resource "aws_api_gateway_resource" "sets_by_courseId" {
+#   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+#   parent_id   = aws_api_gateway_resource.id.id
+#   path_part   = "course" 
+# }
 
 
 resource "aws_api_gateway_resource" "set_by_setId" {
