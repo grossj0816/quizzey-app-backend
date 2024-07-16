@@ -49,7 +49,7 @@ def get_sets_by_cId_handler(event, context):
 
 
 def set_getter_handler(event, context):
-    set_id = event['pathParameters']['id']
+    set_id = event['pathParameters']['setId']
     ind_set = None
     row = None
 
