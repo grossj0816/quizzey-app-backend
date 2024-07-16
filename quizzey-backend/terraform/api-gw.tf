@@ -60,7 +60,7 @@ resource "aws_api_gateway_resource" "set" {
 
 resource "aws_api_gateway_resource" "setId" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-  parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.root_resource_id
+  parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.set.id
   path_part   = "{setId}"
 }
 
@@ -175,7 +175,7 @@ module "cors_update_course" {
 module "get_set" {
   source          = "./gw-method-and-intg-resources"
   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.setId //TODO: FIX THIS
+  resource        = aws_api_gateway_resource.setId
   lambda_function = aws_lambda_function.ind_set_get_lambda
   authorization   = "NONE"
   httpmethod      = "GET"
