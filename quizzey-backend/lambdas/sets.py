@@ -20,7 +20,7 @@ print('Loading function')
 
 def get_sets_by_cId_handler(event, context):
     
-    course_id = event['pathParameters']['id']
+    course_id = event['pathParameters']['crsId']
     
     try:
         with DbUtils(host, db_name, username, password) as db:

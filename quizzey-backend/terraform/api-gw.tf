@@ -65,18 +65,18 @@ resource "aws_api_gateway_resource" "setId" {
 }
 
 
-# resource "aws_api_gateway_resource" "sets" {
-#   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-#   parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.root_resource_id
-#   path_part   = "sets" 
+resource "aws_api_gateway_resource" "sets" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.root_resource_id
+  path_part   = "sets" 
+}
 
-# }
 
-# resource "aws_api_gateway_resource" "set_by_setId" {
-#   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-#   parent_id   = aws_api_gateway_resource.set.id
-#   path_part   = "{courseId}"
-# }
+resource "aws_api_gateway_resource" "courseId" {
+  rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
+  parent_id   = aws_api_gateway_resource.sets.id
+  path_part   = "{crsId}"
+}
 
 
 resource "aws_api_gateway_resource" "questions" {
@@ -160,14 +160,14 @@ module "cors_update_course" {
 
 
 
-# module "get_sets_by_cid" {
-#   source          = "./gw-method-and-intg-resources"
-#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-#   resource        = aws_api_gateway_resource.set_by_courseId
-#   lambda_function = aws_lambda_function.get_sets_by_cid_lambda
-#   authorization   = "NONE"
-#   httpmethod      = "GET"
-# }
+module "get_sets_by_cid" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.courseId
+  lambda_function = aws_lambda_function.get_sets_by_cid_lambda
+  authorization   = "NONE"
+  httpmethod      = "GET"
+}
 
 
 
