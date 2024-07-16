@@ -160,14 +160,14 @@ module "cors_update_course" {
 
 
 
-module "get_sets_by_cid" {
-  source          = "./gw-method-and-intg-resources"
-  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.sets_by_courseId
-  lambda_function = aws_lambda_function.get_sets_by_cid_lambda
-  authorization   = "NONE"
-  httpmethod      = "GET"
-}
+# module "get_sets_by_cid" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.sets_by_courseId
+#   lambda_function = aws_lambda_function.get_sets_by_cid_lambda
+#   authorization   = "NONE"
+#   httpmethod      = "GET"
+# }
 
 
 
@@ -270,7 +270,7 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.create_course,
     module.update_course,
     module.cors_update_course,
-    module.get_sets_by_cid,
+    # module.get_sets_by_cid,
     module.get_set,
     module.create_set,
     module.update_set,
