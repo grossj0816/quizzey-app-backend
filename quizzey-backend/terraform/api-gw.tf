@@ -60,7 +60,7 @@ resource "aws_api_gateway_resource" "set" {
 
 resource "aws_api_gateway_resource" "setId" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
-  parent_id   = aws_api_gateway_rest_api.quizzey-api-gateway.set.id
+  parent_id   = aws_api_gateway_resource.set.id
   path_part   = "{setId}"
 }
 
