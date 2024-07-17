@@ -89,7 +89,7 @@ resource "aws_api_gateway_resource" "questions" {
 resource "aws_api_gateway_resource" "questions_by_set_id" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
   parent_id   = aws_api_gateway_resource.questions.id
-  path_part   = "{Id}" 
+  path_part   = "{id}" 
 }
 
 
@@ -270,7 +270,7 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.create_course,
     module.update_course,
     module.cors_update_course,
-    # module.get_sets_by_cid,
+    module.get_sets_by_cid,
     module.get_set,
     module.create_set,
     module.update_set,

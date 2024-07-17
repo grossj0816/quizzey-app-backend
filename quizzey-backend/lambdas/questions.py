@@ -19,7 +19,7 @@ print('Loading function')
 
 
 def get_questions_by_sId_handler(event, context):
-    set_id = event['pathParameters']['setId']
+    set_id = event['pathParameters']['id']
 
     try:
         with DbUtils(host, db_name, username, password) as db:
