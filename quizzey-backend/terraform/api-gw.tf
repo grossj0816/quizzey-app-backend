@@ -218,47 +218,47 @@ module "cors_update_set" {
 
 
 
-module "get_questions_by_sId" {
-  source          = "./gw-method-and-intg-resources"
-  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.questions_by_set_id
-  lambda_function = aws_lambda_function.get_questions_by_sid_lambda
-  authorization   = "NONE"
-  httpmethod      = "GET" 
-}
+# module "get_questions_by_sId" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.questions_by_set_id
+#   lambda_function = aws_lambda_function.get_questions_by_sid_lambda
+#   authorization   = "NONE"
+#   httpmethod      = "GET" 
+# }
 
 
 
-module "create_questions" {
-  source          = "./gw-method-and-intg-resources"
-  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.questions
-  lambda_function = aws_lambda_function.create_questions_lambda
-  authorization   = "NONE"
-  httpmethod      = "POST" 
-}
+# module "create_questions" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.questions
+#   lambda_function = aws_lambda_function.create_questions_lambda
+#   authorization   = "NONE"
+#   httpmethod      = "POST" 
+# }
 
 
 
-module "update_questions" {
-  source          = "./gw-method-and-intg-resources"
-  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.questions
-  lambda_function = aws_lambda_function.update_questions_lambda
-  authorization   = "NONE"
-  httpmethod      = "PUT" 
-}
+# module "update_questions" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.questions
+#   lambda_function = aws_lambda_function.update_questions_lambda
+#   authorization   = "NONE"
+#   httpmethod      = "PUT" 
+# }
 
 
 
-module "delete_questions" {
-  source          = "./gw-method-and-intg-resources"
-  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.questions
-  lambda_function = aws_lambda_function.delete_questions_lambda
-  authorization   = "NONE"
-  httpmethod      = "DELETE"   
-}
+# module "delete_questions" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.questions
+#   lambda_function = aws_lambda_function.delete_questions_lambda
+#   authorization   = "NONE"
+#   httpmethod      = "DELETE"   
+# }
 
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
@@ -274,11 +274,11 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_set,
     module.create_set,
     module.update_set,
-    module.cors_update_set,
-    module.get_questions_by_sId,
-    module.create_questions,
-    module.update_questions,
-    module.delete_questions
+    module.cors_update_set
+    # module.get_questions_by_sId,
+    # module.create_questions,
+    # module.update_questions,
+    # module.delete_questions
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting
