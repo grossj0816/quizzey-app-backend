@@ -229,14 +229,14 @@ module "get_questions_by_sId" {
 
 
 
-# module "create_questions" {
-#   source          = "./gw-method-and-intg-resources"
-#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-#   resource        = aws_api_gateway_resource.questions
-#   lambda_function = aws_lambda_function.create_questions_lambda
-#   authorization   = "NONE"
-#   httpmethod      = "POST" 
-# }
+module "create_questions" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.questions
+  lambda_function = aws_lambda_function.create_questions_lambda
+  authorization   = "NONE"
+  httpmethod      = "POST" 
+}
 
 
 
@@ -288,7 +288,7 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.update_set,
     module.cors_update_set,
     module.get_questions_by_sId,
-    # module.create_questions,
+    module.create_questions,
     # module.update_questions,
     # module.delete_questions
     module.cors_update_question
