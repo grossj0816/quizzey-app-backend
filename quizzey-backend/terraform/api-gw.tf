@@ -3,7 +3,7 @@ resource "aws_api_gateway_rest_api" "quizzey-api-gateway" {
   description = "AWS Rest APIs for Quizzey Application"
 
   endpoint_configuration {
-    types = ["REGIONAL"] #TODO: Create the VPC where this API Gateway will live 
+    types = ["REGIONAL"]
   }
 }
 
