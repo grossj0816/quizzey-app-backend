@@ -28,7 +28,7 @@ def get_questions_by_sId_handler(event, context):
                 print("Connected to MySQL Server version:", db_info)
 
                 # query = ("SELECT * FROM questions WHERE setId = %(set_id)s")
-                query = ("SELECT * FROM questions WHERE active = true ")
+                query = ("SELECT * FROM questions")
                 cursor = db.cursor(dictionary=True)
                 # cursor.execute(query, {'set_id': set_id})
                 cursor.execute(query)
