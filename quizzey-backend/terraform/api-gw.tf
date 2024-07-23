@@ -218,14 +218,14 @@ module "cors_update_set" {
 
 
 
-# module "get_questions_by_sId" {
-#   source          = "./gw-method-and-intg-resources"
-#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-#   resource        = aws_api_gateway_resource.questions_by_set_id
-#   lambda_function = aws_lambda_function.get_questions_by_sid_lambda
-#   authorization   = "NONE"
-#   httpmethod      = "GET" 
-# }
+module "get_questions_by_sId" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.questions_by_set_id
+  lambda_function = aws_lambda_function.get_questions_by_sid_lambda
+  authorization   = "NONE"
+  httpmethod      = "GET" 
+}
 
 
 
@@ -260,6 +260,18 @@ module "cors_update_set" {
 #   httpmethod      = "DELETE"   
 # }
 
+
+module "cors_update_question" {
+  source          = "./gw-method-and-intg-resources"
+  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+  resource        = aws_api_gateway_resource.questions
+  lambda_function = aws_lambda_function.cors_question_lambda
+  authorization   = "NONE"
+  httpmethod      = "OPTIONS"  
+}
+
+
+
 # deployment and stage ----------------------------------------------------------------------
 resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
   rest_api_id = aws_api_gateway_rest_api.quizzey-api-gateway.id
@@ -274,11 +286,12 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.get_set,
     module.create_set,
     module.update_set,
-    module.cors_update_set
-    # module.get_questions_by_sId,
+    module.cors_update_set,
+    module.get_questions_by_sId,
     # module.create_questions,
     # module.update_questions,
     # module.delete_questions
+    module.cors_update_question
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting
