@@ -336,15 +336,6 @@ resource "aws_lambda_function" "cors_course_lambda" {
     subnet_ids         = data.aws_subnets.lambda_subnets.ids
     security_group_ids = data.aws_security_groups.lambda_sg.ids
   }
-
-  environment {
-    variables = {
-      HOST          = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["host"]
-      DATABASE_NAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["dbname"]
-      USERNAME      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["username"]
-      PASSWORD      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["password"]
-    }
-  }
 }
 
 
@@ -561,15 +552,6 @@ resource "aws_lambda_function" "cors_set_lambda" {
     subnet_ids         = data.aws_subnets.lambda_subnets.ids
     security_group_ids = data.aws_security_groups.lambda_sg.ids
   }
-
-  environment {
-    variables = {
-      HOST          = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["host"]
-      DATABASE_NAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["dbname"]
-      USERNAME      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["username"]
-      PASSWORD      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["password"]
-    }
-  }
 }
 
 
@@ -783,14 +765,5 @@ resource "aws_lambda_function" "cors_question_lambda" {
   vpc_config {
     subnet_ids         = data.aws_subnets.lambda_subnets.ids
     security_group_ids = data.aws_security_groups.lambda_sg.ids
-  }
-
-  environment {
-    variables = {
-      HOST          = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["host"]
-      DATABASE_NAME = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["dbname"]
-      USERNAME      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["username"]
-      PASSWORD      = jsondecode(data.aws_secretsmanager_secret_version.secret_credentials.secret_string)["password"]
-    }
   }
 }
