@@ -762,7 +762,7 @@ resource "aws_lambda_permission" "cors_questions_lambda_perm" {
   source_arn    = "${aws_api_gateway_rest_api.quizzey-api-gateway.execution_arn}/*/*"
 }
 
-resource "aws_cloudwatch_log_group" "cors_set_lambda" {
+resource "aws_cloudwatch_log_group" "cors_question_lambda" {
   name              = "/aws/lambda/${aws_lambda_function.cors_question_lambda.function_name}"
   retention_in_days = 30
   skip_destroy      = false
