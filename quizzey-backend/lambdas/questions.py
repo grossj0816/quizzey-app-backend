@@ -129,7 +129,7 @@ def update_questions_handler(event, context):
 def delete_questions_handler(event, context):
     request_body = json.loads(event['body'])
 
-    try:
+    # try:
     #     with DbUtils(host, db_name, username, password) as db:
     #         if db.is_connected():
     #             db_info = db.get_server_info()
