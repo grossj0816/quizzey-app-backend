@@ -26,3 +26,26 @@ def all_tables_create_handler(event, context):
         "statusCode": 200,
         "body": json.dumps({'Success': 'Database creation process has completed. Double check if you tables were added correctly.'})
     }
+
+
+def drop_quizzey_app_table(event, context):
+    host = os.environ.get('HOST')
+    db_name = os.environ.get('DATABASE_NAME')
+    username = os.environ.get('USERNAME')
+    password = os.environ.get('PASSWORD')
+
+    try:
+        with DbUtils(host, db_name, username, password) as db:
+            if db.is_connected():
+                db_info = db.get_server_info()
+                print("Connected to MySQL Server version:", db_info)
+
+                cursor = db.cursor()
+                cursor.execute("DROP TABLE quizzeydb")
+    except Error as e:
+        print('Error while connecting to MySQL...', e)
+    return{
+        "statusCode": 200,
+        "body": json.dumps({'Success': 'Database deletion process has completed. Double check this...'})
+    }
+                

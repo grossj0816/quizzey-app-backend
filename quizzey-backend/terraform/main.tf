@@ -105,7 +105,7 @@ resource "aws_lambda_function" "create_tables_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "tables.all_tables_create_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
   vpc_config {
@@ -149,7 +149,7 @@ resource "aws_lambda_function" "courses_get_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.courses_getter_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
   vpc_config {
@@ -193,7 +193,7 @@ resource "aws_lambda_function" "ind_course_get_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.course_getter_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -238,7 +238,7 @@ resource "aws_lambda_function" "create_course_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.create_new_course_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -283,7 +283,7 @@ resource "aws_lambda_function" "update_course_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.update_course_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -328,7 +328,7 @@ resource "aws_lambda_function" "cors_course_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "courses.options_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -364,7 +364,7 @@ resource "aws_lambda_function" "get_sets_by_cid_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.get_sets_by_cId_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -409,7 +409,7 @@ resource "aws_lambda_function" "ind_set_get_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.set_getter_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -454,7 +454,7 @@ resource "aws_lambda_function" "create_set_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.create_new_set_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -499,7 +499,7 @@ resource "aws_lambda_function" "update_set_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.update_set_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -544,7 +544,7 @@ resource "aws_lambda_function" "cors_set_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "sets.options_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -580,7 +580,7 @@ resource "aws_lambda_function" "get_questions_by_sid_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.get_questions_by_sId_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -625,7 +625,7 @@ resource "aws_lambda_function" "create_questions_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.create_new_questions_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -670,7 +670,7 @@ resource "aws_lambda_function" "update_questions_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.update_questions_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -715,7 +715,7 @@ resource "aws_lambda_function" "delete_questions_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.delete_questions_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
@@ -758,7 +758,7 @@ resource "aws_lambda_function" "cors_question_lambda" {
   source_code_hash = filebase64sha256("../lambdas/lambdas.zip")
   role             = data.aws_iam_role.iam_role_for_lambda.arn
   handler          = "questions.options_handler"
-  runtime          = "python3.10"
+  runtime          = "python3.12"
   architectures    = ["arm64"]
   timeout          = 240
 
