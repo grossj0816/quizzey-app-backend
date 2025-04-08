@@ -48,7 +48,7 @@ def create_new_questions_handler(event, context):
     request_body = json.loads(event['body'])
     created_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    print(body)
+    print(request_body)
     
     # CONNECT TO DB...
     try:
