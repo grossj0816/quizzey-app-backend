@@ -130,27 +130,27 @@ def delete_questions_handler(event, context):
     request_body = json.loads(event['body'])
 
     try:
-        with DbUtils(host, db_name, username, password) as db:
-            if db.is_connected():
-                db_info = db.get_server_info()
-                print("Connected to MySQL Server version:", db_info)
+    #     with DbUtils(host, db_name, username, password) as db:
+    #         if db.is_connected():
+    #             db_info = db.get_server_info()
+    #             print("Connected to MySQL Server version:", db_info)
 
-                query = ("DELETE FROM questions WHERE questionId=%s")
+    #             query = ("DELETE FROM questions WHERE questionId=%s")
 
-                cursor = db.cursor()
+    #             cursor = db.cursor()
 
-                for item in request_body:
-                    data_for_query = (item['questionId'], )
-                    print(data_for_query)
-                    cursor.execute(query, data_for_query)
+    #             for item in request_body:
+    #                 data_for_query = (item['questionId'], )
+    #                 print(data_for_query)
+    #                 cursor.execute(query, data_for_query)
 
-                db.commit()
-                print('COMMITTED NEW RECORD...')
-                cursor.close()
-                print('CURSOR CLOSED...')
+    #             db.commit()
+    #             print('COMMITTED NEW RECORD...')
+    #             cursor.close()
+    #             print('CURSOR CLOSED...')
 
-    except Error as e:
-        print('Error while connecting to MySQL...', e)
+    # except Error as e:
+    #     print('Error while connecting to MySQL...', e)
     return{
         "statusCode": 200,
         "headers": response_headers,
