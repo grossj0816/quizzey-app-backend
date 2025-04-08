@@ -12,7 +12,7 @@ password = os.environ.get('PASSWORD')
 response_headers = {
     "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "OPTIONS,PUT,GET,POST,DELETE",
+    "Access-Control-Allow-Methods": "OPTIONS,PUT,GET,POST",
 }
 
 print('Loading function')
@@ -27,8 +27,8 @@ def get_questions_by_sId_handler(event, context):
                 db_info = db.get_server_info()
                 print("Connected to MySQL Server version:", db_info)
 
-                # query = ("SELECT * FROM questions WHERE setId = %(set_id)s")
-                query = ("SELECT * FROM questions")
+                query = ("SELECT * FROM questions WHERE setId = %(set_id)s")
+                # query = ("SELECT * FROM questions")
                 cursor = db.cursor(dictionary=True)
                 # cursor.execute(query, {'set_id': set_id})
                 cursor.execute(query)
@@ -49,6 +49,8 @@ def create_new_questions_handler(event, context):
     # LOAD JSON LIST INTO PYTHON DICT
     request_body = json.loads(event['body'])
     created_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    print(body)
     
     # CONNECT TO DB...
     try:
