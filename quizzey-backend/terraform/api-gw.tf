@@ -251,6 +251,16 @@ module "create_questions" {
 
 
 
+# module "cors_update_question" {
+#   source          = "./gw-method-and-intg-resources"
+#   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
+#   resource        = aws_api_gateway_resource.questions
+#   lambda_function = aws_lambda_function.cors_question_lambda
+#   authorization   = "NONE"
+#   httpmethod      = "OPTIONS"  
+# }
+
+
 # module "delete_questions" {
 #   source          = "./gw-method-and-intg-resources"
 #   apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
@@ -259,16 +269,6 @@ module "create_questions" {
 #   authorization   = "NONE"
 #   httpmethod      = "DELETE"   
 # }
-
-
-module "cors_update_question" {
-  source          = "./gw-method-and-intg-resources"
-  apigateway      = aws_api_gateway_rest_api.quizzey-api-gateway
-  resource        = aws_api_gateway_resource.questions
-  lambda_function = aws_lambda_function.cors_question_lambda
-  authorization   = "NONE"
-  httpmethod      = "OPTIONS"  
-}
 
 
 
@@ -288,10 +288,9 @@ resource "aws_api_gateway_deployment" "quizzey-backend-deployment" {
     module.update_set,
     module.cors_update_set,
     module.get_questions_by_sId,
-    module.create_questions,
+    module.create_questions
     # module.update_questions,
-    # module.delete_questions
-    module.cors_update_question
+    # module.cors_update_question
   ]
   lifecycle {
     # if changes are made in the deployment create new resources before deleting
